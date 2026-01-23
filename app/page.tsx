@@ -1,9 +1,7 @@
-import Image from "next/image";
-
 export default function Index() {
   return (
-    <div>
-      Its work
+    <div className="text-center">
+      Use sidebar for redirect to <b>USER</b> or <b>PRODUCT</b> management
     </div>
   );
 }
