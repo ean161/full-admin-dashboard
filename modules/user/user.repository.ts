@@ -1,7 +1,7 @@
 import { db } from "@/db"
 import { users } from "@/db/schema"
 import { GetDataTableProps } from "./user.service";
-import { eq, ilike, or, sql } from "drizzle-orm";
+import { asc, desc, eq, ilike, or, sql } from "drizzle-orm";
 import { User } from "./user.types";
 
 export const UserRepository = {
@@ -26,7 +26,8 @@ export const UserRepository = {
                 .from(users)
                 .where(where)
                 .limit(data.limit)
-                .offset(offset),
+                .offset(offset)
+                .orderBy(asc(users.username)),
             db.select({ count: sql<number>`count(*)` })
                 .from(users)
                 .where(where)
@@ -52,6 +53,16 @@ export const UserRepository = {
     async deleteUserById(data: Pick<User, "id">) {
         await db.delete(users)
             .where(eq(users.id, data.id))
+            .execute();
+    },
+
+    async updateUserById(data: Pick<User, "id" | "username" | "balance">) {
+        await db.update(users)
+            .set({
+                username: data.username,
+                balance: data.balance ?? 0
+            })
+            .where(sql`${users.id}::text ilike ${`%${data.id}%`}`)
             .execute();
     }
 }

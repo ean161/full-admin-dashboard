@@ -18,5 +18,9 @@ export const UserService = {
 
     async delete(data: Pick<User, "id">) {
         return await UserRepository.deleteUserById(data);
-    }
+    },
+
+    async update(data: Pick<User, "id" | "username" | "balance">) {
+        return await UserRepository.updateUserById(data);
+    },
 }

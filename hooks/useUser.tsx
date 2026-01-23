@@ -6,6 +6,7 @@ import { BadgeMinus, Copy, MoreHorizontal } from "lucide-react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import EditForm from "@/components/feature/user/EditForm";
 
 type TableData = {
     id: string,
@@ -64,6 +65,7 @@ export default function useUser({ refresh }: UseUserProps) {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="space-x-2">
+                    <EditForm refresh={refresh} id={row.original.id} username={row.original.username} balance={row.original.balance} />
                     <Button onClick={() => handleDelete(row.original.id)} variant={"destructive"} disabled={isPending}>Delete</Button>
                 </div>
             ),

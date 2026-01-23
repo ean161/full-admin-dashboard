@@ -1,10 +1,11 @@
 import { Plus } from "lucide-react";
-import { Button } from "../ui/button";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
-import { Field, FieldGroup, FieldLabel } from "../ui/field";
-import { Input } from "../ui/input";
+
 import { useState, useTransition } from "react";
 import { api } from "@/lib/api";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 type FormField = {
     id: string,
@@ -14,11 +15,12 @@ type FormField = {
 
 type AddFormProps = {
     refresh: () => void,
-    handleUrl: string,
-    fields: FormField[]
+    id: string,
+    username: string,
+    balance: number
 }
 
-export default function AddForm({ refresh, handleUrl, fields }: AddFormProps) {
+export default function EditForm({ refresh, id, username, balance }: AddFormProps) {
     const [open, setOpen] = useState<boolean>(false);
     const [isPending, startTransaction] = useTransition();
 
@@ -26,8 +28,8 @@ export default function AddForm({ refresh, handleUrl, fields }: AddFormProps) {
         startTransaction(async () => {
             console.log(form.values())
             const req = await api({
-                url: handleUrl,
-                method: "POST",
+                url: "/api/users",
+                method: "PATCH",
                 body: JSON.stringify(Object.fromEntries(form.entries()))
             });
 
@@ -41,28 +43,29 @@ export default function AddForm({ refresh, handleUrl, fields }: AddFormProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>
-                    <Plus />
-                    <span>Create</span>
-                </Button>
+                <Button variant={"default"}>Edit</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader className="text-left">
-                    <DialogTitle>Add a user</DialogTitle>
-                    <DialogDescription>Add a user to system</DialogDescription>
+                    <DialogTitle>Edit {username}</DialogTitle>
+                    <DialogDescription>User ID: {id}</DialogDescription>
                 </DialogHeader>
                 <form action={(e) => {
                     handle(e);
                 }}>
                     <FieldGroup>
-                        {fields.map((f, fIdx) => {
-                            return (
-                                <Field key={fIdx}>
-                                    <FieldLabel>{f.title}</FieldLabel>
-                                    <Input name={f.id} type={f.type} />
-                                </Field>
-                            );
-                        })}
+                        <Field>
+                            <FieldLabel>ID</FieldLabel>
+                            <Input defaultValue={id} name="id" type="text" readOnly={true} />
+                        </Field>
+                        <Field>
+                            <FieldLabel>Username</FieldLabel>
+                            <Input defaultValue={username} name="username" type="text" />
+                        </Field>
+                        <Field>
+                            <FieldLabel>Balance</FieldLabel>
+                            <Input defaultValue={balance ?? 0} name="balance" type="number" />
+                        </Field>
                         <Field>
                             <div className="flex justify-end">
                                 <Button className="w-fit" disabled={isPending}>Submit</Button>
