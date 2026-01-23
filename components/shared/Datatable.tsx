@@ -75,7 +75,7 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
         <div className="w-full space-y-4">
             <div className="flex justify-end">
                 <Input
-                    placeholder="Tìm kiếm"
+                    placeholder="Search..."
                     value={search ?? ""}
                     onChange={(e) => setSearch(e.target.value)}
                     className="max-w-3xs"
@@ -121,7 +121,7 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
                             <TableCell
                                 colSpan={columns.length}
                                 className="text-center align-middle">
-                                {list === undefined ? "Đang tải" : "Không có dữ liệu"}
+                                {list === undefined ? "Loading" : "No data"}
                             </TableCell>
                         </TableRow>
                     )}
@@ -129,7 +129,7 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
             </Table>
             <div className="flex items-center justify-end space-x-2 py-4">
                 <div className="text-muted-foreground flex-1">
-                    Trang {page} / {totalPages || 1} - Tổng {total ?? 0} dòng
+                    Page {page} / {totalPages || 1} - Total {total ?? 0} rows
                 </div>
                 <div className="space-x-2">
                     <Button
