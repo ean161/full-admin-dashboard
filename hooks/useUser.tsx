@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { BadgeMinus, Copy, MoreHorizontal } from "lucide-react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 type TableData = {
     id: string,
@@ -12,8 +13,29 @@ type TableData = {
     balance: number
 }
 
-export default function useUser() {
+type UseUserProps = {
+    refresh: () => void
+}
+
+export default function useUser({ refresh }: UseUserProps) {
+    const [isPending, startTransaction] = useTransition();
     const router = useRouter();
+
+    const handleDelete = (id: string) => {
+        startTransaction(async () => {
+            const req = await api({
+                url: "/api/users",
+                method: "DELETE",
+                body: JSON.stringify({
+                    id
+                })
+            })
+
+            if (req?.status == "success") {
+                refresh();
+            }
+        });
+    };
 
     const cols: ColumnDef<TableData>[] = [
         {
@@ -40,7 +62,11 @@ export default function useUser() {
         {
             id: "actions",
             header: "Actions",
-            cell: ({ row }) => "-",
+            cell: ({ row }) => (
+                <div className="space-x-2">
+                    <Button onClick={() => handleDelete(row.original.id)} variant={"destructive"} disabled={isPending}>Delete</Button>
+                </div>
+            ),
             enableSorting: false,
             enableHiding: false
         },

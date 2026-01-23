@@ -47,5 +47,11 @@ export const UserRepository = {
         await db.insert(users)
             .values(data)
             .execute();
+    },
+
+    async deleteUserById(data: Pick<User, "id">) {
+        await db.delete(users)
+            .where(eq(users.id, data.id))
+            .execute();
     }
 }

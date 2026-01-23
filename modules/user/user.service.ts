@@ -14,5 +14,9 @@ export const UserService = {
 
     async create(data: Pick<User, "username" | "balance">) {
         return await UserRepository.insertUserWithUsernameAndBalance(data);
+    },
+
+    async delete(data: Pick<User, "id">) {
+        return await UserRepository.deleteUserById(data);
     }
 }
