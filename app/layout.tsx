@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          <main className="p-4 w-full md:w-1/2 mx-auto">
+          <main className="p-4 w-full mx-auto">
             <SidebarTrigger />
             <div className="mt-4">
               {children}
