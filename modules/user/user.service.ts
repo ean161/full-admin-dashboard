@@ -1,4 +1,5 @@
 import { UserRepository } from "./user.repository"
+import { User } from "./user.types";
 
 export type GetDataTableProps = {
     search: string,
@@ -9,5 +10,9 @@ export type GetDataTableProps = {
 export const UserService = {
     async getDatatable(data: GetDataTableProps) {
         return await UserRepository.findWithPagingAndSearch(data);
+    },
+
+    async create(data: Pick<User, "username" | "balance">) {
+        return await UserRepository.insertUserWithUsernameAndBalance(data);
     }
 }
