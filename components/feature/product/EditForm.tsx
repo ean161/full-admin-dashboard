@@ -10,11 +10,12 @@ import { Input } from "@/components/ui/input";
 type EditFormProps = {
     refresh: () => void,
     id: string,
-    username: string,
-    balance: number
+    title: string,
+    price: number,
+    quantity: number
 }
 
-export default function EditForm({ refresh, id, username, balance }: EditFormProps) {
+export default function EditForm({ refresh, id, title, price, quantity }: EditFormProps) {
     const [open, setOpen] = useState<boolean>(false);
     const [isPending, startTransaction] = useTransition();
 
@@ -22,7 +23,7 @@ export default function EditForm({ refresh, id, username, balance }: EditFormPro
         startTransaction(async () => {
             console.log(form.values())
             const req = await api({
-                url: "/api/users",
+                url: "/api/products",
                 method: "PATCH",
                 body: JSON.stringify(Object.fromEntries(form.entries()))
             });
@@ -41,8 +42,8 @@ export default function EditForm({ refresh, id, username, balance }: EditFormPro
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader className="text-left">
-                    <DialogTitle>Edit {username}</DialogTitle>
-                    <DialogDescription>User ID: {id}</DialogDescription>
+                    <DialogTitle>Edit {title}</DialogTitle>
+                    <DialogDescription>Product ID: {id}</DialogDescription>
                 </DialogHeader>
                 <form action={(e) => {
                     handle(e);
@@ -53,12 +54,16 @@ export default function EditForm({ refresh, id, username, balance }: EditFormPro
                             <Input defaultValue={id} name="id" type="text" readOnly={true} />
                         </Field>
                         <Field>
-                            <FieldLabel>Username</FieldLabel>
-                            <Input defaultValue={username} name="username" type="text" />
+                            <FieldLabel>Title</FieldLabel>
+                            <Input defaultValue={title} name="title" type="text" />
                         </Field>
                         <Field>
-                            <FieldLabel>Balance</FieldLabel>
-                            <Input defaultValue={balance ?? 0} name="balance" type="number" />
+                            <FieldLabel>Price</FieldLabel>
+                            <Input defaultValue={price ?? 0} name="price" type="number" />
+                        </Field>
+                        <Field>
+                            <FieldLabel>Quantity</FieldLabel>
+                            <Input defaultValue={quantity ?? 0} name="quantity" type="number" />
                         </Field>
                         <Field>
                             <div className="flex justify-end">

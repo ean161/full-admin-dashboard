@@ -13,18 +13,18 @@ type FormField = {
 }
 
 type AddFormProps = {
+    topic: string,
     refresh: () => void,
     handleUrl: string,
     fields: FormField[]
 }
 
-export default function AddForm({ refresh, handleUrl, fields }: AddFormProps) {
+export default function AddForm({ topic, refresh, handleUrl, fields }: AddFormProps) {
     const [open, setOpen] = useState<boolean>(false);
     const [isPending, startTransaction] = useTransition();
 
     const handle = async (form: FormData) => {
         startTransaction(async () => {
-            console.log(form.values())
             const req = await api({
                 url: handleUrl,
                 method: "POST",
@@ -48,8 +48,8 @@ export default function AddForm({ refresh, handleUrl, fields }: AddFormProps) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader className="text-left">
-                    <DialogTitle>Add a user</DialogTitle>
-                    <DialogDescription>Add a user to system</DialogDescription>
+                    <DialogTitle>Add a {topic}</DialogTitle>
+                    <DialogDescription>Add a {topic} to system</DialogDescription>
                 </DialogHeader>
                 <form action={(e) => {
                     handle(e);

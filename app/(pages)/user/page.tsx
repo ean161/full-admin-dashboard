@@ -15,7 +15,6 @@ export default function User() {
         refresh
     });
 
-
     return (
         <>
             <div className="flex items-center justify-between mb-4">
@@ -23,7 +22,7 @@ export default function User() {
                     <h2 className="text-2xl font-semibold tracking-tight">User management</h2>
                     <p className="text-muted-foreground">Create, update, delete users</p>
                 </div>
-                <AddForm refresh={refresh} handleUrl="/api/users" fields={[
+                <AddForm topic="user" refresh={refresh} handleUrl="/api/users" fields={[
                     {
                         id: "username",
                         title: "Username",
