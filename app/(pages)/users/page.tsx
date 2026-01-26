@@ -2,7 +2,7 @@
 
 import AddForm from "@/components/shared/AddForm";
 import DataTable from "@/components/shared/Datatable";
-import useUser from "@/hooks/useUser";
+import useUser from "@/hooks/users/useUsers";
 import { useState } from "react";
 
 export default function User() {

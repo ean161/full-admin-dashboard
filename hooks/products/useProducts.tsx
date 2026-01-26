@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import EditForm from "@/components/feature/product/EditForm";
+import EditForm from "@/components/feature/products/EditForm";
 
 type TableData = {
     id: string;

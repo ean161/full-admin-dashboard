@@ -1,5 +1,5 @@
 import { parseError } from "@/lib/parseError";
-import { UserService } from "@/modules/user/user.service";
+import { UserService } from "@/modules/users/user.service";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 

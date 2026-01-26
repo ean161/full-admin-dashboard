@@ -2,7 +2,7 @@
 
 import AddForm from "@/components/shared/AddForm";
 import DataTable from "@/components/shared/Datatable";
-import useProduct from "@/hooks/useProduct";
+import useProduct from "@/hooks/products/useProducts";
 import { useState } from "react";
 
 export default function Product() {
