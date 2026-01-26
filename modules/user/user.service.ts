@@ -18,7 +18,7 @@ export const UserService = {
         });
 
         if (existUsername) {
-            throw new Error("Duplicated user");
+            throw new Error("Duplicated username");
         }
 
         return await UserRepository.insertUserWithUsernameAndBalance(data);
@@ -33,8 +33,13 @@ export const UserService = {
             username: data.username,
         });
 
-        if (existUsername) {
-            throw new Error("Duplicated user");
+        if (!existUsername) {
+            throw new Error("User not found");
+        }
+
+        const target = await UserRepository.findUserById(data);
+        if (target.username !== data.username && existUsername) {
+            throw new Error("Duplicated username");
         }
 
         return await UserRepository.updateUserById(data);

@@ -5,6 +5,15 @@ import { asc, eq, ilike, or, sql } from "drizzle-orm";
 import { User } from "./user.types";
 
 export const UserRepository = {
+    async findUserById(data: Pick<User, "id">) {
+        const [user] = await db
+            .select()
+            .from(users)
+            .where(sql`${users.id} = ${data.id}`)
+            .limit(1);
+        return user;
+    },
+
     async findUserByUsername(data: Pick<User, "username">) {
         const [user] = await db
             .select()
