@@ -77,7 +77,7 @@ export default function DataTable({
     const totalPages = Math.ceil(total / pageSize);
 
     return (
-        <div className="w-full space-y-4">
+        <div className="space-y-4">
             <div className="flex justify-end">
                 <Input
                     placeholder="Search..."

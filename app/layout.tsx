@@ -34,9 +34,9 @@ export default function RootLayout({
                 <AuthProvider>
                     <SidebarProvider>
                         <AppSidebar />
-                        <main className="p-4 w-full mx-auto">
+                        <main className="w-full flex flex-1 flex-col gap-6 px-4 py-4 md:px-8 md:py-4">
                             <SidebarTrigger />
-                            <div className="mt-4">{children}</div>
+                            <div className="mt-2">{children}</div>
                         </main>
                         <Toaster />
                     </SidebarProvider>
