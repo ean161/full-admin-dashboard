@@ -20,13 +20,13 @@ const UpdateSchema = z.object({
 
 export async function PATCH(
     req: NextRequest,
-    { params }: { params: { id: string } },
+    { params }: { params: Promise<{ id: string }> },
 ) {
-    const { id } = await params;
-
     try {
+        const { id } = await params;
         const payload = await req.json();
         payload.id = id;
+
         const data = UpdateSchema.parse(payload);
         await ProductService.update(data);
 
@@ -48,7 +48,7 @@ const DeleteSchema = z.object({
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } },
+    { params }: { params: Promise<{ id: string }> },
 ) {
     try {
         const payload = await params;
