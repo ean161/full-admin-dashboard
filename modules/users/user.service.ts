@@ -44,4 +44,8 @@ export const UserService = {
 
         return await UserRepository.updateUserById(data);
     },
+
+    async details(data: Pick<User, "id">) {
+        return await UserRepository.findUserById(data);
+    },
 };

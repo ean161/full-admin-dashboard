@@ -71,23 +71,31 @@ export default function useUser({ refresh }: UseUserProps) {
         {
             id: "actions",
             header: "Actions",
-            cell: ({ row }) => (
-                <div className="space-x-2">
-                    <EditForm
-                        refresh={refresh}
-                        id={row.original.id}
-                        username={row.original.username}
-                        balance={row.original.balance}
-                    />
-                    <Button
-                        onClick={() => handleDelete(row.original.id)}
-                        variant={"destructive"}
-                        disabled={isPending}
-                    >
-                        Delete
-                    </Button>
-                </div>
-            ),
+            cell: ({ row }) => {
+                const id = row.original.id;
+                return (
+                    <div className="space-x-2 cursor-pointer">
+                        <Link href={`/users/${id}`}>
+                            <Button variant={"secondary"} disabled={isPending}>
+                                Details
+                            </Button>
+                        </Link>
+                        <EditForm
+                            refresh={refresh}
+                            id={id}
+                            username={row.original.username}
+                            balance={row.original.balance}
+                        />
+                        <Button
+                            onClick={() => handleDelete(id)}
+                            variant={"destructive"}
+                            disabled={isPending}
+                        >
+                            Delete
+                        </Button>
+                    </div>
+                );
+            },
             enableSorting: false,
             enableHiding: false,
         },

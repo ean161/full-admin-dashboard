@@ -3,6 +3,31 @@ import { UserService } from "@/modules/users/user.service";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+const ReadSchema = z.object({
+    id: z.string().min(1, "ID is require"),
+});
+
+export async function GET(
+    req: NextRequest,
+    { params }: { params: Promise<{ id: string }> },
+) {
+    try {
+        const payload = await params;
+        const data = ReadSchema.parse(payload);
+        const details = await UserService.details(data);
+
+        return NextResponse.json({
+            status: "success",
+            data: details,
+        });
+    } catch (err: any) {
+        return NextResponse.json({
+            status: "error",
+            message: parseError(err),
+        });
+    }
+}
+
 const UpdateSchema = z.object({
     id: z.string().min(1, "ID is require"),
     username: z.string().min(1, "Username is require"),
