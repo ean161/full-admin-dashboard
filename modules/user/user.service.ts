@@ -13,6 +13,14 @@ export const UserService = {
     },
 
     async create(data: Pick<User, "username" | "balance">) {
+        const existUsername = await UserRepository.existByUsername({
+            username: data.username,
+        });
+
+        if (existUsername) {
+            throw new Error("Duplicated user");
+        }
+
         return await UserRepository.insertUserWithUsernameAndBalance(data);
     },
 
@@ -21,6 +29,14 @@ export const UserService = {
     },
 
     async update(data: Pick<User, "id" | "username" | "balance">) {
+        const existUsername = await UserRepository.existByUsername({
+            username: data.username,
+        });
+
+        if (existUsername) {
+            throw new Error("Duplicated user");
+        }
+
         return await UserRepository.updateUserById(data);
     },
 };

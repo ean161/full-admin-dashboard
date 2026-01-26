@@ -9,8 +9,14 @@ export const UserRepository = {
         const [user] = await db
             .select()
             .from(users)
-            .where(ilike(users.username, data.username ?? ""));
+            .where(ilike(users.username, data.username ?? ""))
+            .limit(1);
         return user;
+    },
+
+    async existByUsername(data: Pick<User, "username">) {
+        const user = await this.findUserByUsername(data);
+        return user != null;
     },
 
     async findWithPagingAndSearch(data: GetDataTableProps) {
