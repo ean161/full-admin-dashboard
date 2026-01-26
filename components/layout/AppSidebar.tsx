@@ -41,13 +41,13 @@ export default function AppSidebar() {
                             <SidebarMenuItem>
                                 <SidebarMenuButton>
                                     <List />
-                                    <Link href="/user">User management</Link>
+                                    <Link href="/users">User management</Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton>
                                     <List />
-                                    <Link href="/product">
+                                    <Link href="/products">
                                         Product management
                                     </Link>
                                 </SidebarMenuButton>
