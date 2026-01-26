@@ -1,22 +1,20 @@
-"use client"
-import { ColumnDef } from "@tanstack/react-table"
-import { ReactNode, useEffect, useState, useTransition } from "react";
-import { Badge } from "@/components/ui/badge";
-import { BadgeMinus, Copy, MoreHorizontal } from "lucide-react";
+"use client";
+import { ColumnDef } from "@tanstack/react-table";
+import { useTransition } from "react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import EditForm from "@/components/feature/user/EditForm";
 
 type TableData = {
-    id: string,
-    username: string,
-    balance: number
-}
+    id: string;
+    username: string;
+    balance: number;
+};
 
 type UseUserProps = {
-    refresh: () => void
-}
+    refresh: () => void;
+};
 
 export default function useUser({ refresh }: UseUserProps) {
     const [isPending, startTransaction] = useTransition();
@@ -28,9 +26,9 @@ export default function useUser({ refresh }: UseUserProps) {
                 url: "/api/users",
                 method: "DELETE",
                 body: JSON.stringify({
-                    id
-                })
-            })
+                    id,
+                }),
+            });
 
             if (req?.status == "success") {
                 refresh();
@@ -44,35 +42,46 @@ export default function useUser({ refresh }: UseUserProps) {
             header: "ID",
             cell: ({ row }) => row.original.id,
             enableSorting: false,
-            enableHiding: false
+            enableHiding: false,
         },
         {
             id: "username",
             header: "Username",
             cell: ({ row }) => row.original.username,
             enableSorting: false,
-            enableHiding: false
+            enableHiding: false,
         },
         {
             id: "balance",
             header: "Balance",
             cell: ({ row }) => `${row.original.balance}$`,
             enableSorting: false,
-            enableHiding: false
+            enableHiding: false,
         },
         {
             id: "actions",
             header: "Actions",
             cell: ({ row }) => (
                 <div className="space-x-2">
-                    <EditForm refresh={refresh} id={row.original.id} username={row.original.username} balance={row.original.balance} />
-                    <Button onClick={() => handleDelete(row.original.id)} variant={"destructive"} disabled={isPending}>Delete</Button>
+                    <EditForm
+                        refresh={refresh}
+                        id={row.original.id}
+                        username={row.original.username}
+                        balance={row.original.balance}
+                    />
+                    <Button
+                        onClick={() => handleDelete(row.original.id)}
+                        variant={"destructive"}
+                        disabled={isPending}
+                    >
+                        Delete
+                    </Button>
                 </div>
             ),
             enableSorting: false,
-            enableHiding: false
+            enableHiding: false,
         },
     ];
 
-    return { cols }
+    return { cols };
 }

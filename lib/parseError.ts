@@ -4,7 +4,7 @@ export const parseError = (data: any) => {
         if (zodErr) {
             return zodErr;
         }
-    } catch (err: any) { }
+    } catch (err: any) {}
 
     const msg = String(data?.message);
     if (msg.startsWith("Failed query:") || msg.includes('"')) {
@@ -12,4 +12,4 @@ export const parseError = (data: any) => {
     }
 
     return msg;
-}
+};

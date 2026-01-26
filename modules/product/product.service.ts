@@ -1,11 +1,11 @@
-import { ProductRepository } from "./product.repository"
+import { ProductRepository } from "./product.repository";
 import { Product } from "./product.types";
 
 export type GetDataTableProps = {
-    search: string,
-    page: number,
-    limit: number
-}
+    search: string;
+    page: number;
+    limit: number;
+};
 
 export const ProductService = {
     async getDatatable(data: GetDataTableProps) {
@@ -13,7 +13,9 @@ export const ProductService = {
     },
 
     async create(data: Pick<Product, "title" | "price" | "quantity">) {
-        return await ProductRepository.insertProductWithTitleAndPriceAndQuantity(data);
+        return await ProductRepository.insertProductWithTitleAndPriceAndQuantity(
+            data,
+        );
     },
 
     async delete(data: Pick<Product, "id">) {
@@ -23,4 +25,4 @@ export const ProductService = {
     async update(data: Pick<Product, "id" | "title" | "price" | "quantity">) {
         return await ProductRepository.updateProductById(data);
     },
-}
+};

@@ -1,17 +1,17 @@
 import { toast } from "sonner";
 
 type ApiProps = {
-    isSilent?: boolean,
-    url: string,
-    method?: string,
-    body?: any
-}
+    isSilent?: boolean;
+    url: string;
+    method?: string;
+    body?: any;
+};
 
 export async function api(data: ApiProps) {
     try {
         const req = await fetch(data.url, {
             method: data.method ?? "GET",
-            body: data.body ?? null
+            body: data.body ?? null,
         });
 
         const res = await req.json();

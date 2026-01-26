@@ -1,7 +1,7 @@
 import { parseError } from "@/lib/parseError";
 import { UserService } from "@/modules/user/user.service";
 import { NextResponse } from "next/server";
-import { z } from "zod"
+import { z } from "zod";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -14,14 +14,18 @@ export async function GET(req: Request) {
         data: await UserService.getDatatable({
             search,
             page,
-            limit
-        })
+            limit,
+        }),
     });
 }
 
 const CreateSchema = z.object({
     username: z.string().min(1, "Username is require"),
-    balance: z.coerce.number("Balance must be a number").min(0, "Balance must be greater than or equal 0").optional().default(0)
+    balance: z.coerce
+        .number("Balance must be a number")
+        .min(0, "Balance must be greater than or equal 0")
+        .optional()
+        .default(0),
 });
 
 export async function POST(req: Request) {
@@ -32,12 +36,12 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
             status: "success",
-            message: "User added successfully"
+            message: "User added successfully",
         });
     } catch (err: any) {
         return NextResponse.json({
             status: "error",
-            message: parseError(err)
+            message: parseError(err),
         });
     }
 }
@@ -54,12 +58,12 @@ export async function DELETE(req: Request) {
 
         return NextResponse.json({
             status: "success",
-            message: "User deleted successfully"
+            message: "User deleted successfully",
         });
     } catch (err: any) {
         return NextResponse.json({
             status: "error",
-            message: parseError(err)
+            message: parseError(err),
         });
     }
 }
@@ -67,7 +71,11 @@ export async function DELETE(req: Request) {
 const UpdateSchema = z.object({
     id: z.string().min(1, "ID is require"),
     username: z.string().min(1, "Username is require"),
-    balance: z.coerce.number("Balance must be a number").min(0, "Balance must be greater than or equal 0").optional().default(0)
+    balance: z.coerce
+        .number("Balance must be a number")
+        .min(0, "Balance must be greater than or equal 0")
+        .optional()
+        .default(0),
 });
 
 export async function PATCH(req: Request) {
@@ -78,12 +86,12 @@ export async function PATCH(req: Request) {
 
         return NextResponse.json({
             status: "success",
-            message: "User updated successfully"
+            message: "User updated successfully",
         });
     } catch (err: any) {
         return NextResponse.json({
             status: "error",
-            message: parseError(err)
+            message: parseError(err),
         });
     }
 }

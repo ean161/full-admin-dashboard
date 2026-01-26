@@ -1,12 +1,13 @@
-import { db } from "@/db"
-import { users } from "@/db/schema"
+import { db } from "@/db";
+import { users } from "@/db/schema";
 import { GetDataTableProps } from "./user.service";
-import { asc, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { asc, eq, ilike, or, sql } from "drizzle-orm";
 import { User } from "./user.types";
 
 export const UserRepository = {
     async findUserByUsername(data: Pick<User, "username">) {
-        const [user] = await db.select()
+        const [user] = await db
+            .select()
             .from(users)
             .where(ilike(users.username, data.username ?? ""));
         return user;
@@ -16,53 +17,54 @@ export const UserRepository = {
         const offset = (data.page - 1) * data.limit;
         const where = data.search
             ? or(
-                sql`${users.id}::text ilike ${`%${data.search}%`}`,
-                ilike(users.username, `%${data.search}%`)
-            )
+                  sql`${users.id}::text ilike ${`%${data.search}%`}`,
+                  ilike(users.username, `%${data.search}%`),
+              )
             : undefined;
 
         const [items, totalResult] = await Promise.all([
-            db.select()
+            db
+                .select()
                 .from(users)
                 .where(where)
                 .limit(data.limit)
                 .offset(offset)
                 .orderBy(asc(users.username)),
-            db.select({ count: sql<number>`count(*)` })
+            db
+                .select({ count: sql<number>`count(*)` })
                 .from(users)
-                .where(where)
+                .where(where),
         ]);
 
         return { items, totalResult };
     },
 
-    async insertUserWithUsernameAndBalance(data: Pick<User, "username" | "balance">) {
+    async insertUserWithUsernameAndBalance(
+        data: Pick<User, "username" | "balance">,
+    ) {
         const user = await this.findUserByUsername({
-            username: data.username
+            username: data.username,
         });
 
         if (user) {
             throw new Error("Username duplicated");
         }
 
-        await db.insert(users)
-            .values(data)
-            .execute();
+        await db.insert(users).values(data).execute();
     },
 
     async deleteUserById(data: Pick<User, "id">) {
-        await db.delete(users)
-            .where(eq(users.id, data.id))
-            .execute();
+        await db.delete(users).where(eq(users.id, data.id)).execute();
     },
 
     async updateUserById(data: Pick<User, "id" | "username" | "balance">) {
-        await db.update(users)
+        await db
+            .update(users)
             .set({
                 username: data.username,
-                balance: data.balance ?? 0
+                balance: data.balance ?? 0,
             })
             .where(sql`${users.id}::text ilike ${`%${data.id}%`}`)
             .execute();
-    }
-}
+    },
+};

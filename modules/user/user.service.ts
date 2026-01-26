@@ -1,11 +1,11 @@
-import { UserRepository } from "./user.repository"
+import { UserRepository } from "./user.repository";
 import { User } from "./user.types";
 
 export type GetDataTableProps = {
-    search: string,
-    page: number,
-    limit: number
-}
+    search: string;
+    page: number;
+    limit: number;
+};
 
 export const UserService = {
     async getDatatable(data: GetDataTableProps) {
@@ -23,4 +23,4 @@ export const UserService = {
     async update(data: Pick<User, "id" | "username" | "balance">) {
         return await UserRepository.updateUserById(data);
     },
-}
+};

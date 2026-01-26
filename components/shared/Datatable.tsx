@@ -1,12 +1,12 @@
-"use client";;
+"use client";
 import {
     useReactTable,
     getCoreRowModel,
     flexRender,
     ColumnDef,
-} from "@tanstack/react-table"
-import { useEffect, useState } from "react"
-import { Input } from "@/components/ui/input"
+} from "@tanstack/react-table";
+import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
 import {
     Table,
     TableBody,
@@ -14,19 +14,24 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
-import { Button } from "../ui/button"
-import { api } from "@/lib/api"
+} from "@/components/ui/table";
+import { Button } from "../ui/button";
+import { api } from "@/lib/api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface DataTableProps {
-    columns: ColumnDef<any>[],
-    url: string,
-    pageSize?: number,
-    refresh: number
+    columns: ColumnDef<any>[];
+    url: string;
+    pageSize?: number;
+    refresh: number;
 }
 
-export default function DataTable({ columns, url, pageSize = 10, refresh }: DataTableProps) {
+export default function DataTable({
+    columns,
+    url,
+    pageSize = 10,
+    refresh,
+}: DataTableProps) {
     const [list, setList] = useState<any[]>();
     const [search, setSearch] = useState("");
     const [total, setTotal] = useState(0);
@@ -52,7 +57,7 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
     const fetchList = async (search?: string) => {
         const req = await api({
             isSilent: true,
-            url: `${url}${url.includes("?") ? "&" : "?"}search=${search ?? ""}&page=${page}&limit=${pageSize}`
+            url: `${url}${url.includes("?") ? "&" : "?"}search=${search ?? ""}&page=${page}&limit=${pageSize}`,
         });
 
         if (!req?.data) {
@@ -62,7 +67,7 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
 
         setList(req.data.items);
         setTotal(req.data.total);
-    }
+    };
 
     useEffect(() => {
         setList(undefined);
@@ -91,9 +96,10 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
+                                                  header.column.columnDef
+                                                      .header,
+                                                  header.getContext(),
+                                              )}
                                     </TableHead>
                                 );
                             })}
@@ -105,12 +111,13 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
                         table.getRowModel().rows.map((row) => (
                             <TableRow
                                 key={row.id}
-                                data-state={row.getIsSelected() && "selected"}>
+                                data-state={row.getIsSelected() && "selected"}
+                            >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
                                         {flexRender(
                                             cell.column.columnDef.cell,
-                                            cell.getContext()
+                                            cell.getContext(),
                                         )}
                                     </TableCell>
                                 ))}
@@ -120,7 +127,8 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
                         <TableRow>
                             <TableCell
                                 colSpan={columns.length}
-                                className="text-center align-middle">
+                                className="text-center align-middle"
+                            >
                                 {list === undefined ? "Loading" : "No data"}
                             </TableCell>
                         </TableRow>
@@ -135,15 +143,19 @@ export default function DataTable({ columns, url, pageSize = 10, refresh }: Data
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setPage(p => Math.max(1, p - 1))}
-                        disabled={page === 1}>
+                        onClick={() => setPage((p) => Math.max(1, p - 1))}
+                        disabled={page === 1}
+                    >
                         <ArrowLeft />
                     </Button>
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                        disabled={page === totalPages || totalPages === 0}>
+                        onClick={() =>
+                            setPage((p) => Math.min(totalPages, p + 1))
+                        }
+                        disabled={page === totalPages || totalPages === 0}
+                    >
                         <ArrowRight />
                     </Button>
                 </div>
