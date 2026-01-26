@@ -17,9 +17,9 @@ export async function api(data: ApiProps) {
         const res = await req.json();
         if (!data.isSilent && res?.message) {
             if (res?.status == "success") {
-                toast.error(res.message);
-            } else if (res?.status == "error") {
                 toast.success(res.message);
+            } else if (res?.status == "error") {
+                toast.error(res.message);
             }
         }
 
