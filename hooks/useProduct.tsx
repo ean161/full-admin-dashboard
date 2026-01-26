@@ -24,11 +24,8 @@ export default function useProduct({ refresh }: UseProductProps) {
     const handleDelete = (id: string) => {
         startTransaction(async () => {
             const req = await api({
-                url: "/api/products",
+                url: `/api/products/${id}`,
                 method: "DELETE",
-                body: JSON.stringify({
-                    id,
-                }),
             });
 
             if (req?.status == "success") {
