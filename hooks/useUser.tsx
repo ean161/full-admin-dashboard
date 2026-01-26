@@ -23,11 +23,8 @@ export default function useUser({ refresh }: UseUserProps) {
     const handleDelete = (id: string) => {
         startTransaction(async () => {
             const req = await api({
-                url: "/api/users",
+                url: `/api/users/${id}`,
                 method: "DELETE",
-                body: JSON.stringify({
-                    id,
-                }),
             });
 
             if (req?.status == "success") {

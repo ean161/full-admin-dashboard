@@ -30,9 +30,8 @@ export default function EditForm({
 
     const handle = async (form: FormData) => {
         startTransaction(async () => {
-            console.log(form.values());
             const req = await api({
-                url: "/api/users",
+                url: `/api/users/${form.get("id")}`,
                 method: "PATCH",
                 body: JSON.stringify(Object.fromEntries(form.entries())),
             });
