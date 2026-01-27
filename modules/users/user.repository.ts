@@ -42,7 +42,7 @@ export const UserRepository = {
               )
             : undefined;
 
-        const [items, totalResult] = await Promise.all([
+        const [items, total] = await Promise.all([
             db
                 .select()
                 .from(users)
@@ -56,7 +56,7 @@ export const UserRepository = {
                 .where(where),
         ]);
 
-        return { items, totalResult };
+        return { items, total: Number(total[0].count) ?? 0 };
     },
 
     async insertUserWithUsernameAndBalance(
