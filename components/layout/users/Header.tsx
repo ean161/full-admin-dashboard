@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRightLeft, ChevronLeft, Plus } from "lucide-react";
+import { ArrowRightLeft, List, Plus } from "lucide-react";
 import Link from "next/link";
 
 type HeaderProps = {
@@ -20,9 +20,12 @@ export default function Header({ hasFullFeats = false }: HeaderProps) {
             {!hasFullFeats && (
                 <div className="mt-6 flex justify-end">
                     <Link href="/users">
-                        <Button variant={"secondary"}>
-                            <ChevronLeft />
-                            <span>Back</span>
+                        <Button
+                            variant={"secondary"}
+                            className="cursor-pointer"
+                        >
+                            <List />
+                            <span>List</span>
                         </Button>
                     </Link>
                 </div>
@@ -30,13 +33,16 @@ export default function Header({ hasFullFeats = false }: HeaderProps) {
             {hasFullFeats && (
                 <div className="flex space-x-2 mt-6 md:mt-0 justify-end">
                     <Link href="/users/transfer-money">
-                        <Button variant={"secondary"}>
+                        <Button
+                            variant={"secondary"}
+                            className="cursor-pointer"
+                        >
                             <ArrowRightLeft />
                             <span>Transfer money</span>
                         </Button>
                     </Link>
                     <Link href="/users/create">
-                        <Button>
+                        <Button className="cursor-pointer">
                             <Plus />
                             <span>Create</span>
                         </Button>

@@ -73,7 +73,7 @@ export default function UserDetails() {
                                             <Button
                                                 type="submit"
                                                 variant={"secondary"}
-                                                className="w-fit"
+                                                className="w-fit cursor-pointer"
                                             >
                                                 Edit
                                             </Button>

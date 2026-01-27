@@ -126,7 +126,7 @@ export default function UserDetails() {
                                     type="submit"
                                     variant={"default"}
                                     disabled={isPending}
-                                    className="w-fit"
+                                    className="w-fit cursor-pointer"
                                 >
                                     {isPending && <Spinner />}
                                     Submit

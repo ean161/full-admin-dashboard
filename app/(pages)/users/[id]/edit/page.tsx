@@ -106,7 +106,7 @@ export default function EditUser() {
                                                 disabled={
                                                     isPending || isDeleting
                                                 }
-                                                className="w-fit"
+                                                className="w-fit cursor-pointer"
                                             >
                                                 {isPending && <Spinner />}
                                                 Save changes
@@ -120,7 +120,7 @@ export default function EditUser() {
                                                 disabled={
                                                     isPending || isDeleting
                                                 }
-                                                className="w-fit"
+                                                className="w-fit cursor-pointer"
                                             >
                                                 {isDeleting && <Spinner />}
                                                 Delete
