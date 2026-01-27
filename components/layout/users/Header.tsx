@@ -8,7 +8,7 @@ type HeaderProps = {
 
 export default function Header({ hasFullFeats = false }: HeaderProps) {
     return (
-        <div className="flex items-center justify-between mb-6">
+        <div className="md:flex items-center justify-between mb-6">
             <div className="flex flex-col gap-1">
                 <h2 className="text-2xl font-semibold tracking-tight">
                     User management
@@ -26,7 +26,7 @@ export default function Header({ hasFullFeats = false }: HeaderProps) {
                 </Link>
             )}
             {hasFullFeats && (
-                <div className="md:flex space-x-2 space-y-2">
+                <div className="flex space-x-2 mt-6 md:mt-0 justify-end">
                     <Link href="/users/transfer-money">
                         <Button variant={"secondary"}>
                             <ArrowRightLeft />
