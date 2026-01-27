@@ -43,7 +43,7 @@ export default function useUser({ refresh }: UseUserProps) {
                 return (
                     <Link
                         href={`/users/${id}`}
-                        className="flex items-center space-x-2 text-gray-600"
+                        className="flex items-center space-x-1 text-gray-600"
                     >
                         <span>{id}</span>
                         <ExternalLink size={16} />

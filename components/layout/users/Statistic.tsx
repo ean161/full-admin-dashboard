@@ -9,7 +9,6 @@ import {
 import UseStatistic from "@/hooks/users/useStatistic";
 import { Coins, DollarSign, UsersRound } from "lucide-react";
 import StatisticItem from "./StatisticItem";
-import { Button } from "@/components/ui/button";
 
 export default function Statistic() {
     const { isPending, statistic } = UseStatistic();
@@ -25,33 +24,21 @@ export default function Statistic() {
             <CardContent className="grid gap-6 sm:grid-cols-2">
                 <StatisticItem
                     isPending={isPending}
-                    icon={
-                        <Button variant={"secondary"}>
-                            <UsersRound />
-                        </Button>
-                    }
+                    icon={<UsersRound />}
                     label="Registed users"
                     value={statistic?.totalUser ?? 0}
                     unit=" users"
                 />
                 <StatisticItem
                     isPending={isPending}
-                    icon={
-                        <Button variant={"secondary"}>
-                            <DollarSign />
-                        </Button>
-                    }
+                    icon={<DollarSign />}
                     label="Total balance"
                     value={statistic?.totalBalance ?? 0}
                     unit="$"
                 />
                 <StatisticItem
                     isPending={isPending}
-                    icon={
-                        <Button variant={"secondary"}>
-                            <Coins />
-                        </Button>
-                    }
+                    icon={<Coins />}
                     label="Average balance"
                     value={statistic?.averageBalance ?? 0}
                     unit="$ per user"

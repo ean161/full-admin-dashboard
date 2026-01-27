@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { ReactNode } from "react";
 
@@ -18,7 +19,7 @@ export default function StatisticItem({
 }: StatisticItemProps) {
     return (
         <div className="flex items-center gap-4">
-            {icon}
+            <Button variant={"secondary"}>{icon}</Button>
             <div className="flex flex-col">
                 <span className="text-sm font-semibold">{label}</span>
                 {isPending && <Spinner color="gray" />}

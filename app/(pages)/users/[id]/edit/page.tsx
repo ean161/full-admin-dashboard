@@ -41,7 +41,7 @@ export default function UserDetails() {
         <>
             <Header hasFullFeats={false} />
             <div className="w-full md:w-1/3 mx-auto">
-                <Card>
+                <Card className="border-dashed shadow-none">
                     <CardHeader>
                         <CardTitle>Edit user</CardTitle>
                         <CardDescription>ID: #{params.id}</CardDescription>

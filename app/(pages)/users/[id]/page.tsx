@@ -32,7 +32,7 @@ export default function UserDetails() {
         <>
             <Header hasFullFeats={false} />
             <div className="w-full md:w-1/3 mx-auto">
-                <Card>
+                <Card className="border-dashed shadow-none">
                     <CardHeader>
                         <CardTitle>User details</CardTitle>
                         <CardDescription>ID: #{params.id}</CardDescription>
