@@ -10,6 +10,7 @@ import {
 import {
     Field,
     FieldContent,
+    FieldDescription,
     FieldGroup,
     FieldLabel,
 } from "@/components/ui/field";
@@ -18,10 +19,18 @@ import { Spinner } from "@/components/ui/spinner";
 import useEditUser from "@/hooks/users/useEditUser";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EditUserSchema } from "@/modules/users/user.types";
 
 export default function UserDetails() {
     const params = useParams();
-    const { register, handleSubmit } = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(EditUserSchema),
+    });
 
     const { isPending, user, setForm } = useEditUser({
         id: String(params.id),
@@ -78,6 +87,11 @@ export default function UserDetails() {
                                                 }
                                             />
                                         </FieldContent>
+                                        {errors.username && (
+                                            <FieldDescription className="text-red-500">
+                                                {errors.username.message}
+                                            </FieldDescription>
+                                        )}
                                     </Field>
                                     <Field>
                                         <FieldLabel>Balance</FieldLabel>
@@ -90,6 +104,11 @@ export default function UserDetails() {
                                                 }
                                             />
                                         </FieldContent>
+                                        {errors.balance && (
+                                            <FieldDescription className="text-red-500">
+                                                {errors.balance.message}
+                                            </FieldDescription>
+                                        )}
                                     </Field>
                                     <Field>
                                         <FieldContent>

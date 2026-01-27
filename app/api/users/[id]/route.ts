@@ -1,9 +1,10 @@
 import { parseError } from "@/lib/parseError";
 import { UserService } from "@/modules/users/user.service";
+import { EditUserSchema } from "@/modules/users/user.types";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-const ReadSchema = z.object({
+const GetSchema = z.object({
     id: z.string().min(1, "ID is require").uuid("Invalid user id"),
 });
 
@@ -13,7 +14,7 @@ export async function GET(
 ) {
     try {
         const payload = await params;
-        const data = ReadSchema.parse(payload);
+        const data = GetSchema.parse(payload);
         const details = await UserService.details(data);
 
         return NextResponse.json({
@@ -28,16 +29,6 @@ export async function GET(
     }
 }
 
-const UpdateSchema = z.object({
-    id: z.string().min(1, "ID is require").uuid("Invalid user id"),
-    username: z.string().min(1, "Username is require"),
-    balance: z.coerce
-        .number("Balance must be a number")
-        .min(0, "Balance must be greater than or equal 0")
-        .optional()
-        .default(0),
-});
-
 export async function PATCH(
     req: NextRequest,
     { params }: { params: Promise<{ id: string }> },
@@ -47,7 +38,7 @@ export async function PATCH(
         const payload = await req.json();
         payload.id = id;
 
-        const data = UpdateSchema.parse(payload);
+        const data = EditUserSchema.parse(payload);
         await UserService.update(data);
 
         return NextResponse.json({

@@ -19,7 +19,7 @@ export async function GET(req: Request) {
     });
 }
 
-const CreateSchema = z.object({
+const PostSchema = z.object({
     username: z.string().min(1, "Username is require"),
     balance: z.coerce
         .number("Balance must be a number")
@@ -31,7 +31,7 @@ const CreateSchema = z.object({
 export async function POST(req: Request) {
     try {
         const payload = await req.json();
-        const data = CreateSchema.parse(payload);
+        const data = PostSchema.parse(payload);
         await UserService.create(data);
 
         return NextResponse.json({
