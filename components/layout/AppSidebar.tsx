@@ -51,13 +51,13 @@ export default function AppSidebar() {
             <SidebarFooter>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton>
+                        <div className="flex space-x-2 items-center p-2">
                             <User2 />
                             <div className="w-full flex justify-between items-center">
                                 <span>{auth?.name}</span>
                                 <Badge>{auth?.role}</Badge>
                             </div>
-                        </SidebarMenuButton>
+                        </div>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>
