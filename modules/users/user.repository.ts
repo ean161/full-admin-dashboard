@@ -5,6 +5,11 @@ import { asc, eq, ilike, or, sql } from "drizzle-orm";
 import { User } from "./user.types";
 
 export const UserRepository = {
+    async findAll() {
+        const list = await db.select().from(users).orderBy(asc(users.username));
+        return list;
+    },
+
     async findUserById(data: Pick<User, "id">) {
         const [user] = await db
             .select()
@@ -79,7 +84,17 @@ export const UserRepository = {
                 username: data.username,
                 balance: data.balance ?? 0,
             })
-            .where(sql`${users.id}::text ilike ${`%${data.id}%`}`)
+            .where(sql`${users.id}::text ilike ${data.id}`)
+            .execute();
+    },
+
+    async updateBalanceById(data: Pick<User, "id" | "balance">) {
+        await db
+            .update(users)
+            .set({
+                balance: data.balance ?? 0,
+            })
+            .where(sql`${users.id}::text ilike ${data.id}`)
             .execute();
     },
 };

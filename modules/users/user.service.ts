@@ -1,5 +1,5 @@
 import { UserRepository } from "./user.repository";
-import { User } from "./user.types";
+import { TransferUserMoneyProps, User } from "./user.types";
 
 export type GetDataTableProps = {
     search: string;
@@ -10,6 +10,10 @@ export type GetDataTableProps = {
 export const UserService = {
     async getDatatable(data: GetDataTableProps) {
         return await UserRepository.findWithPagingAndSearch(data);
+    },
+
+    async getList() {
+        return await UserRepository.findAll();
     },
 
     async getUserById(data: Pick<User, "id">) {
@@ -56,5 +60,29 @@ export const UserService = {
     async details(data: Pick<User, "id">) {
         const user = await this.getUserById(data);
         return user;
+    },
+
+    async transferMoney(data: TransferUserMoneyProps) {
+        const sender = await this.getUserById({
+            id: data.sender,
+        });
+        const receiver = await this.getUserById({
+            id: data.receiver,
+        });
+
+        const senderBalance = sender.balance ?? 0;
+        if (senderBalance < data.amount) {
+            throw new Error("Sender balance not enought to transfer");
+        }
+
+        await UserRepository.updateBalanceById({
+            id: sender.id,
+            balance: senderBalance - data.amount,
+        });
+
+        await UserRepository.updateBalanceById({
+            id: receiver.id,
+            balance: (receiver.balance ?? 0) + data.amount,
+        });
     },
 };

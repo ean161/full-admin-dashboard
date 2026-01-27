@@ -2,7 +2,7 @@
 import DataTable from "@/components/shared/Datatable";
 import { Button } from "@/components/ui/button";
 import useUser from "@/hooks/users/useUsers";
-import { Plus } from "lucide-react";
+import { ArrowRightLeft, Plus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -27,12 +27,20 @@ export default function User() {
                         Create, update, delete users
                     </p>
                 </div>
-                <Link href="/users/create">
-                    <Button>
-                        <Plus />
-                        <span>Create</span>
-                    </Button>
-                </Link>
+                <div className="flex space-x-2">
+                    <Link href="/users/transfer-money">
+                        <Button variant={"secondary"}>
+                            <ArrowRightLeft />
+                            <span>Transfer money</span>
+                        </Button>
+                    </Link>
+                    <Link href="/users/create">
+                        <Button>
+                            <Plus />
+                            <span>Create</span>
+                        </Button>
+                    </Link>
+                </div>
             </div>
             <DataTable columns={cols} url="/api/users" refresh={refreshKey} />
         </>

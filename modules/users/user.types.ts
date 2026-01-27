@@ -21,3 +21,17 @@ export const CreateUserSchema = z.object({
         .optional()
         .default(0),
 });
+
+export const TransferUserMoneySchema = z.object({
+    sender: z.string().min(1, "Sender id is require").uuid("Invalid sender id"),
+    receiver: z
+        .string()
+        .min(1, "Receiver user id is require")
+        .uuid("Invalid recevier user id"),
+    amount: z.coerce
+        .number("Amount must be a number")
+        .min(0, "Amount must be greater than 0")
+        .default(0),
+});
+
+export type TransferUserMoneyProps = z.infer<typeof TransferUserMoneySchema>;
