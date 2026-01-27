@@ -1,7 +1,7 @@
 import { api } from "@/lib/api";
 import { User } from "@/modules/users/user.types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 type UseEditUserProps = {
     id: string;
@@ -11,6 +11,7 @@ export default function useEditUser({ id }: UseEditUserProps) {
     const router = useRouter();
     const [user, setUser] = useState<User>();
     const [form, setForm] = useState<string>();
+    const [isPending, startTransaction] = useTransition();
 
     const fetchUser = async () => {
         const res = await api({
@@ -26,15 +27,17 @@ export default function useEditUser({ id }: UseEditUserProps) {
     };
 
     const fetchUpdateUser = async () => {
-        const res = await api({
-            url: `/api/users/${id}`,
-            method: "PATCH",
-            body: form,
-        });
+        startTransaction(async () => {
+            const res = await api({
+                url: `/api/users/${id}`,
+                method: "PATCH",
+                body: form,
+            });
 
-        if (res?.status == "success") {
-            await fetchUser();
-        }
+            if (res?.status == "success") {
+                await fetchUser();
+            }
+        });
     };
 
     useEffect(() => {
@@ -47,5 +50,5 @@ export default function useEditUser({ id }: UseEditUserProps) {
         }
     }, [form]);
 
-    return { user, setForm };
+    return { isPending, user, setForm };
 }

@@ -23,7 +23,7 @@ export default function UserDetails() {
     const params = useParams();
     const { register, handleSubmit } = useForm();
 
-    const { user, setForm } = useEditUser({
+    const { isPending, user, setForm } = useEditUser({
         id: String(params.id),
     });
 
@@ -96,6 +96,7 @@ export default function UserDetails() {
                                             <Button
                                                 type="submit"
                                                 variant={"default"}
+                                                disabled={isPending}
                                             >
                                                 Submit
                                             </Button>
