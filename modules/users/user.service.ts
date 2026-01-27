@@ -12,6 +12,15 @@ export const UserService = {
         return await UserRepository.findWithPagingAndSearch(data);
     },
 
+    async getUserById(data: Pick<User, "id">) {
+        const user = await UserRepository.findUserById(data);
+        if (user == null) {
+            throw new Error("User not found");
+        }
+
+        return user;
+    },
+
     async create(data: Pick<User, "username" | "balance">) {
         const existUsername = await UserRepository.existByUsername({
             username: data.username,
@@ -29,23 +38,21 @@ export const UserService = {
     },
 
     async update(data: Pick<User, "id" | "username" | "balance">) {
-        const existUsername = await UserRepository.existByUsername({
-            username: data.username,
-        });
-
-        if (!existUsername) {
-            throw new Error("User not found");
-        }
-
-        const target = await UserRepository.findUserById(data);
-        if (target.username !== data.username && existUsername) {
-            throw new Error("Duplicated username");
+        const target = await this.getUserById(data);
+        if (target.username !== data.username) {
+            const existUsername = await UserRepository.existByUsername({
+                username: data.username,
+            });
+            if (existUsername) {
+                throw new Error("Duplicated username");
+            }
         }
 
         return await UserRepository.updateUserById(data);
     },
 
     async details(data: Pick<User, "id">) {
-        return await UserRepository.findUserById(data);
+        const user = await this.getUserById(data);
+        return user;
     },
 };

@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const ReadSchema = z.object({
-    id: z.string().min(1, "ID is require"),
+    id: z.string().min(1, "ID is require").uuid("Invalid user id"),
 });
 
 export async function GET(

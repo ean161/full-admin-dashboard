@@ -75,7 +75,13 @@ export default function AddForm({
                             return (
                                 <Field key={fIdx}>
                                     <FieldLabel>{f.title}</FieldLabel>
-                                    <Input name={f.id} type={f.type} />
+                                    <Input
+                                        name={f.id}
+                                        type={f.type}
+                                        defaultValue={
+                                            f.type == "number" ? 0 : ""
+                                        }
+                                    />
                                 </Field>
                             );
                         })}

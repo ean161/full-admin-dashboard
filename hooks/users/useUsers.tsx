@@ -4,7 +4,6 @@ import { useTransition } from "react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import EditForm from "@/components/feature/users/EditForm";
 import Link from "next/link";
 import { CircleArrowOutUpRight } from "lucide-react";
 
@@ -80,12 +79,11 @@ export default function useUser({ refresh }: UseUserProps) {
                                 Details
                             </Button>
                         </Link>
-                        <EditForm
-                            refresh={refresh}
-                            id={id}
-                            username={row.original.username}
-                            balance={row.original.balance}
-                        />
+                        <Link href={`/users/${id}/edit`}>
+                            <Button variant={"default"} disabled={isPending}>
+                                Edit
+                            </Button>
+                        </Link>
                         <Button
                             onClick={() => handleDelete(id)}
                             variant={"destructive"}
