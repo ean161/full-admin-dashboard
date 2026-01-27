@@ -97,4 +97,14 @@ export const UserRepository = {
             .where(sql`${users.id}::text ilike ${data.id}`)
             .execute();
     },
+
+    async total() {
+        return await db.select({ count: sql<number>`count(*)` }).from(users);
+    },
+
+    async totalBalance() {
+        return await db
+            .select({ count: sql<number>`sum(balance)` })
+            .from(users);
+    },
 };

@@ -26,7 +26,7 @@ export default function Header({ hasFullFeats = false }: HeaderProps) {
                 </Link>
             )}
             {hasFullFeats && (
-                <div className="flex space-x-2">
+                <div className="md:flex space-x-2 space-y-2">
                     <Link href="/users/transfer-money">
                         <Button variant={"secondary"}>
                             <ArrowRightLeft />

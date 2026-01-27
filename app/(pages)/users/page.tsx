@@ -1,6 +1,14 @@
 "use client";
 import Header from "@/components/layout/users/Header";
+import Statistic from "@/components/layout/users/Statistic";
 import DataTable from "@/components/shared/Datatable";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import useUser from "@/hooks/users/useUsers";
 import { useState } from "react";
 
@@ -17,7 +25,26 @@ export default function User() {
     return (
         <>
             <Header hasFullFeats={true} />
-            <DataTable columns={cols} url="/api/users" refresh={refreshKey} />
+            <div className="md:flex md:space-x-8 space-y-8">
+                <div className="w-full md:w-1/3">
+                    <Statistic />
+                </div>
+                <Card className="w-full md:w-2/3 border-dashed shadow-none">
+                    <CardHeader>
+                        <CardTitle>List of user</CardTitle>
+                        <CardDescription>
+                            All user registed on system
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <DataTable
+                            columns={cols}
+                            url="/api/users"
+                            refresh={refreshKey}
+                        />
+                    </CardContent>
+                </Card>
+            </div>
         </>
     );
 }

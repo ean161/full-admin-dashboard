@@ -89,4 +89,18 @@ export const UserService = {
             balance: (receiver.balance ?? 0) + data.amount,
         });
     },
+
+    async statistic() {
+        const totalQuery = await UserRepository.total();
+        const totalUser = Number(totalQuery[0]?.count) ?? 0;
+
+        const totalBlcQuery = await UserRepository.totalBalance();
+        const totalBalance = Number(totalBlcQuery[0]?.count) ?? 0;
+
+        const averageBalance = Number(
+            Number(totalBalance) / Number(totalUser),
+        ).toFixed(2);
+
+        return { totalUser, totalBalance, averageBalance };
+    },
 };
