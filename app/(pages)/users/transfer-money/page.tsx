@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SelectNative } from "@/components/ui/select-native";
 import Header from "@/components/layout/users/Header";
+import { ChevronsRight, UserRound } from "lucide-react";
 
 export default function UserDetails() {
     const params = useParams();
@@ -54,9 +55,17 @@ export default function UserDetails() {
                                 )}
                                 className="space-y-4"
                             >
-                                <div className="flex space-x-2">
+                                <div className="flex space-x-4">
                                     <Field>
-                                        <FieldLabel>Sender</FieldLabel>
+                                        <FieldLabel>
+                                            <span className="flex space-x-1 items-center">
+                                                <UserRound
+                                                    size={16}
+                                                    color="gray"
+                                                />
+                                                <span>Sender</span>
+                                            </span>
+                                        </FieldLabel>
                                         <SelectNative {...register("sender")}>
                                             {userList.map((u) => (
                                                 <option key={u.id} value={u.id}>
@@ -71,8 +80,14 @@ export default function UserDetails() {
                                         )}
                                     </Field>
                                     <Field className="w-1/3">
-                                        <FieldLabel>Amount</FieldLabel>
+                                        <FieldLabel className="flex justify-center">
+                                            <ChevronsRight
+                                                size={16}
+                                                color="gray"
+                                            />
+                                        </FieldLabel>
                                         <Input
+                                            className="text-center"
                                             {...register("amount")}
                                             defaultValue={0}
                                         />
@@ -83,7 +98,15 @@ export default function UserDetails() {
                                         )}
                                     </Field>
                                     <Field>
-                                        <FieldLabel>Receiver</FieldLabel>
+                                        <FieldLabel className="w-full">
+                                            <span className="ml-auto flex space-x-1 items-center">
+                                                <span>Receiver</span>
+                                                <UserRound
+                                                    size={16}
+                                                    color="gray"
+                                                />
+                                            </span>
+                                        </FieldLabel>
                                         <SelectNative {...register("receiver")}>
                                             {userList.map((u) => (
                                                 <option key={u.id} value={u.id}>
