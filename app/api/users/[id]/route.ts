@@ -29,7 +29,7 @@ export async function GET(
 }
 
 const UpdateSchema = z.object({
-    id: z.string().min(1, "ID is require"),
+    id: z.string().min(1, "ID is require").uuid("Invalid user id"),
     username: z.string().min(1, "Username is require"),
     balance: z.coerce
         .number("Balance must be a number")
@@ -63,7 +63,7 @@ export async function PATCH(
 }
 
 const DeleteSchema = z.object({
-    id: z.string().min(1, "ID is require"),
+    id: z.string().min(1, "ID is require").uuid("Invalid user id"),
 });
 
 export async function DELETE(

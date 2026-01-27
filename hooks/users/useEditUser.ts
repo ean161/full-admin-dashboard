@@ -1,0 +1,51 @@
+import { api } from "@/lib/api";
+import { User } from "@/modules/users/user.types";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+type UseEditUserProps = {
+    id: string;
+};
+
+export default function useEditUser({ id }: UseEditUserProps) {
+    const router = useRouter();
+    const [user, setUser] = useState<User>();
+    const [form, setForm] = useState<string>();
+
+    const fetchUser = async () => {
+        const res = await api({
+            url: `/api/users/${id}`,
+            method: "GET",
+        });
+
+        if (res?.status == "success") {
+            setUser(res.data);
+        } else if (res?.status == "error") {
+            router.replace("/users");
+        }
+    };
+
+    const fetchUpdateUser = async () => {
+        const res = await api({
+            url: `/api/users/${id}`,
+            method: "PATCH",
+            body: form,
+        });
+
+        if (res?.status == "success") {
+            await fetchUser();
+        }
+    };
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
+
+    useEffect(() => {
+        if (form != undefined) {
+            fetchUpdateUser();
+        }
+    }, [form]);
+
+    return { user, setForm };
+}
