@@ -18,6 +18,7 @@ import { SelectNative } from "@/components/ui/select-native";
 import Header from "@/components/layout/users/Header";
 import { ChevronsRight, UserRound } from "lucide-react";
 import FormSkeleton from "./FormSkeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function UserDetails() {
     const params = useParams();
@@ -127,6 +128,7 @@ export default function UserDetails() {
                                     disabled={isPending}
                                     className="w-fit"
                                 >
+                                    {isPending && <Spinner />}
                                     Submit
                                 </Button>
                             </form>

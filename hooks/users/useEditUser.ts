@@ -12,6 +12,7 @@ export default function useEditUser({ id }: UseEditUserProps) {
     const [user, setUser] = useState<User>();
     const [form, setForm] = useState<string>();
     const [isPending, startTransaction] = useTransition();
+    const [isDeleting, startDeleting] = useTransition();
 
     const fetchUser = async () => {
         const res = await api({
@@ -37,7 +38,7 @@ export default function useEditUser({ id }: UseEditUserProps) {
     };
 
     const handleDelete = (id: string) => {
-        startTransaction(async () => {
+        startDeleting(async () => {
             const req = await api({
                 url: `/api/users/${id}`,
                 method: "DELETE",
@@ -59,5 +60,5 @@ export default function useEditUser({ id }: UseEditUserProps) {
         }
     }, [form]);
 
-    return { isPending, user, setForm, handleDelete };
+    return { isPending, isDeleting, user, setForm, handleDelete };
 }

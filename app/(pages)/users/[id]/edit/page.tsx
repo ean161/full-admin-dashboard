@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EditUserSchema } from "@/modules/users/user.types";
 import Header from "@/components/layout/users/Header";
 import FormSkeleton from "./FormSkeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function EditUser() {
     const params = useParams();
@@ -33,7 +34,7 @@ export default function EditUser() {
         resolver: zodResolver(EditUserSchema),
     });
 
-    const { isPending, user, setForm, handleDelete } = useEditUser({
+    const { isPending, isDeleting, user, setForm, handleDelete } = useEditUser({
         id: String(params.id),
     });
 
@@ -102,9 +103,12 @@ export default function EditUser() {
                                             <Button
                                                 type="submit"
                                                 variant={"default"}
-                                                disabled={isPending}
+                                                disabled={
+                                                    isPending || isDeleting
+                                                }
                                                 className="w-fit"
                                             >
+                                                {isPending && <Spinner />}
                                                 Save changes
                                             </Button>
                                             <Button
@@ -113,9 +117,12 @@ export default function EditUser() {
                                                 }
                                                 type="submit"
                                                 variant={"destructive"}
-                                                disabled={isPending}
+                                                disabled={
+                                                    isPending || isDeleting
+                                                }
                                                 className="w-fit"
                                             >
+                                                {isDeleting && <Spinner />}
                                                 Delete
                                             </Button>
                                         </div>

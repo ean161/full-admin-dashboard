@@ -21,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateUserSchema } from "@/modules/users/user.types";
 import useCreateUser from "@/hooks/users/useCreateUser";
 import Header from "@/components/layout/users/Header";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function UserDetails() {
     const params = useParams();
@@ -83,6 +84,7 @@ export default function UserDetails() {
                                             disabled={isPending}
                                             className="w-fit"
                                         >
+                                            {isPending && <Spinner />}
                                             Submit
                                         </Button>
                                     </FieldContent>
