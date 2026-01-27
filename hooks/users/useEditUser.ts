@@ -36,6 +36,19 @@ export default function useEditUser({ id }: UseEditUserProps) {
         });
     };
 
+    const handleDelete = (id: string) => {
+        startTransaction(async () => {
+            const req = await api({
+                url: `/api/users/${id}`,
+                method: "DELETE",
+            });
+
+            if (req?.status == "success") {
+                router.replace("/users");
+            }
+        });
+    };
+
     useEffect(() => {
         fetchUser();
     }, []);
@@ -46,5 +59,5 @@ export default function useEditUser({ id }: UseEditUserProps) {
         }
     }, [form]);
 
-    return { isPending, user, setForm };
+    return { isPending, user, setForm, handleDelete };
 }

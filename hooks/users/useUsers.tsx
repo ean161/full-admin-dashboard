@@ -1,11 +1,10 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTransition } from "react";
-import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Ellipsis, ExternalLink, PenLine, X } from "lucide-react";
+import { Ellipsis, ExternalLink, PenLine } from "lucide-react";
 
 type TableData = {
     id: string;
@@ -20,19 +19,6 @@ type UseUserProps = {
 export default function useUser({ refresh }: UseUserProps) {
     const [isPending, startTransaction] = useTransition();
     const router = useRouter();
-
-    const handleDelete = (id: string) => {
-        startTransaction(async () => {
-            const req = await api({
-                url: `/api/users/${id}`,
-                method: "DELETE",
-            });
-
-            if (req?.status == "success") {
-                refresh();
-            }
-        });
-    };
 
     const cols: ColumnDef<TableData>[] = [
         {
@@ -92,14 +78,6 @@ export default function useUser({ refresh }: UseUserProps) {
                                 <PenLine />
                             </Button>
                         </Link>
-                        <Button
-                            onClick={() => handleDelete(id)}
-                            variant={"destructive"}
-                            disabled={isPending}
-                            className="cursor-pointer"
-                        >
-                            <X />
-                        </Button>
                     </div>
                 );
             },

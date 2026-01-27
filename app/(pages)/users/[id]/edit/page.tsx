@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EditUserSchema } from "@/modules/users/user.types";
 import Header from "@/components/layout/users/Header";
 
-export default function UserDetails() {
+export default function EditUser() {
     const params = useParams();
     const {
         register,
@@ -33,7 +33,7 @@ export default function UserDetails() {
         resolver: zodResolver(EditUserSchema),
     });
 
-    const { isPending, user, setForm } = useEditUser({
+    const { isPending, user, setForm, handleDelete } = useEditUser({
         id: String(params.id),
     });
 
@@ -102,16 +102,27 @@ export default function UserDetails() {
                                         )}
                                     </Field>
                                     <Field>
-                                        <FieldContent>
+                                        <div className="flex space-x-2">
                                             <Button
                                                 type="submit"
                                                 variant={"default"}
                                                 disabled={isPending}
                                                 className="w-fit"
                                             >
-                                                Submit
+                                                Save changes
                                             </Button>
-                                        </FieldContent>
+                                            <Button
+                                                onClick={() =>
+                                                    handleDelete(user?.id)
+                                                }
+                                                type="submit"
+                                                variant={"destructive"}
+                                                disabled={isPending}
+                                                className="w-fit"
+                                            >
+                                                Delete
+                                            </Button>
+                                        </div>
                                     </Field>
                                 </FieldGroup>
                             </form>
