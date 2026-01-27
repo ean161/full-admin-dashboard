@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -16,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import useUserDetails from "@/hooks/users/useUserDetails";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 
 export default function UserDetails() {
@@ -76,6 +78,19 @@ export default function UserDetails() {
                                             defaultValue={user?.balance ?? "0"}
                                             readOnly
                                         />
+                                    </FieldContent>
+                                </Field>
+                                <Field>
+                                    <FieldContent>
+                                        <Link href={`/users/${user?.id}/edit`}>
+                                            <Button
+                                                type="submit"
+                                                variant={"secondary"}
+                                                className="w-fit"
+                                            >
+                                                Edit
+                                            </Button>
+                                        </Link>
                                     </FieldContent>
                                 </Field>
                             </FieldGroup>

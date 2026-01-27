@@ -116,6 +116,7 @@ export default function UserDetails() {
                                                 type="submit"
                                                 variant={"default"}
                                                 disabled={isPending}
+                                                className="w-fit"
                                             >
                                                 Submit
                                             </Button>

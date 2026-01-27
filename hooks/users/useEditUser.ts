@@ -35,7 +35,9 @@ export default function useEditUser({ id }: UseEditUserProps) {
             });
 
             if (res?.status == "success") {
-                await fetchUser();
+                setTimeout(() => {
+                    router.replace(`/users/${id}`);
+                }, 1500);
             }
         });
     };
