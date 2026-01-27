@@ -18,7 +18,7 @@ export default function StatisticItem({
     unit,
 }: StatisticItemProps) {
     return (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 w-fit">
             <Button variant={"secondary"}>{icon}</Button>
             <div className="flex flex-col">
                 <span className="text-sm font-semibold">{label}</span>

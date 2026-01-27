@@ -26,10 +26,10 @@ export default function User() {
         <>
             <Header hasFullFeats={true} />
             <div className="md:flex md:space-x-8 space-y-8">
-                <div className="w-full md:w-1/3">
+                <div className="w-full md:w-1/5">
                     <Statistic />
                 </div>
-                <Card className="w-full md:w-2/3 border-dashed shadow-none">
+                <Card className="w-full md:w-4/5 border-dashed shadow-none">
                     <CardHeader>
                         <CardTitle>List of user</CardTitle>
                         <CardDescription>

@@ -21,7 +21,7 @@ export default function Statistic() {
                     Statistic about users on system
                 </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-6 sm:grid-cols-2">
+            <CardContent className="flex flex-wrap gap-8">
                 <StatisticItem
                     isPending={isPending}
                     icon={<UsersRound />}
@@ -41,7 +41,7 @@ export default function Statistic() {
                     icon={<Coins />}
                     label="Average balance"
                     value={statistic?.averageBalance ?? 0}
-                    unit="$ per user"
+                    unit="$"
                 />
             </CardContent>
         </Card>

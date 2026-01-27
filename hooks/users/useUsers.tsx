@@ -75,12 +75,20 @@ export default function useUser({ refresh }: UseUserProps) {
                 return (
                     <div className="space-x-2 cursor-pointer">
                         <Link href={`/users/${id}`}>
-                            <Button variant={"secondary"} disabled={isPending}>
+                            <Button
+                                className="cursor-pointer"
+                                variant={"secondary"}
+                                disabled={isPending}
+                            >
                                 <Ellipsis />
                             </Button>
                         </Link>
                         <Link href={`/users/${id}/edit`}>
-                            <Button variant={"default"} disabled={isPending}>
+                            <Button
+                                className="cursor-pointer"
+                                variant={"default"}
+                                disabled={isPending}
+                            >
                                 <PenLine />
                             </Button>
                         </Link>
@@ -88,6 +96,7 @@ export default function useUser({ refresh }: UseUserProps) {
                             onClick={() => handleDelete(id)}
                             variant={"destructive"}
                             disabled={isPending}
+                            className="cursor-pointer"
                         >
                             <X />
                         </Button>
