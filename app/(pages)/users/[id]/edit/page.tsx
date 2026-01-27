@@ -21,6 +21,7 @@ import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditUserSchema } from "@/modules/users/user.types";
+import Header from "@/components/layout/users/Header";
 
 export default function UserDetails() {
     const params = useParams();
@@ -38,16 +39,7 @@ export default function UserDetails() {
 
     return (
         <>
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex flex-col gap-1">
-                    <h2 className="text-2xl font-semibold tracking-tight">
-                        User management
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Create, update, delete users
-                    </p>
-                </div>
-            </div>
+            <Header hasFullFeats={false} />
             <div className="w-full md:w-1/3 mx-auto">
                 <Card>
                     <CardHeader>

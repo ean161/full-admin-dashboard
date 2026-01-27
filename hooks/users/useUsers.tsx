@@ -5,7 +5,7 @@ import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { CircleArrowOutUpRight } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 type TableData = {
     id: string;
@@ -46,7 +46,7 @@ export default function useUser({ refresh }: UseUserProps) {
                         className="flex items-center space-x-2 text-gray-600"
                     >
                         <span>{id}</span>
-                        <CircleArrowOutUpRight size={16} />
+                        <ExternalLink size={16} />
                     </Link>
                 );
             },
