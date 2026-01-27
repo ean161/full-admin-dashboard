@@ -1,5 +1,4 @@
 "use client";
-
 import Header from "@/components/layout/users/Header";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,10 +15,10 @@ import {
     FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
 import useUserDetails from "@/hooks/users/useUserDetails";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import FormSkeleton from "./FormSkeleton";
 
 export default function UserDetails() {
     const params = useParams();
@@ -38,11 +37,7 @@ export default function UserDetails() {
                         <CardDescription>ID: #{params.id}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        {user === undefined && (
-                            <div className="flex justify-center">
-                                <Spinner />
-                            </div>
-                        )}
+                        {user === undefined && <FormSkeleton />}
                         {user !== undefined && (
                             <FieldGroup>
                                 <Field>

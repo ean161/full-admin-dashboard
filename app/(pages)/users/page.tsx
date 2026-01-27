@@ -38,6 +38,7 @@ export default function User() {
                     </CardHeader>
                     <CardContent>
                         <DataTable
+                            pageSize={5}
                             columns={cols}
                             url="/api/users"
                             refresh={refreshKey}

@@ -18,6 +18,7 @@ import {
 import { Button } from "../ui/button";
 import { api } from "@/lib/api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
 
 interface DataTableProps {
     columns: ColumnDef<any>[];
@@ -37,6 +38,16 @@ export default function DataTable({
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+    const TableSkeleton = Array.from({ length: pageSize }).map((_, idx) => (
+        <TableRow key={idx}>
+            {Array.from({ length: columns.length }).map((_, idx2) => (
+                <TableCell key={idx2} className="text-center align-middle">
+                    <Skeleton className="h-8 w-1/1" />
+                </TableCell>
+            ))}
+        </TableRow>
+    ));
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -123,14 +134,14 @@ export default function DataTable({
                                 ))}
                             </TableRow>
                         ))
+                    ) : list === undefined ? (
+                        TableSkeleton
                     ) : (
                         <TableRow>
                             <TableCell
                                 colSpan={columns.length}
                                 className="text-center align-middle"
-                            >
-                                {list === undefined ? "Loading" : "No data"}
-                            </TableCell>
+                            ></TableCell>
                         </TableRow>
                     )}
                 </TableBody>

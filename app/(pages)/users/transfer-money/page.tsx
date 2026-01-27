@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { SelectNative } from "@/components/ui/select-native";
 import Header from "@/components/layout/users/Header";
 import { ChevronsRight, UserRound } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
+import FormSkeleton from "./FormSkeleton";
 
 export default function UserDetails() {
     const params = useParams();
@@ -43,22 +43,7 @@ export default function UserDetails() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        {userList === undefined && (
-                            <div className="flex justify-between">
-                                <div className="flex w-fit items-center gap-4">
-                                    <div className="grid gap-2">
-                                        <Skeleton className="h-4 w-[150px]" />
-                                        <Skeleton className="h-4 w-[100px]" />
-                                    </div>
-                                </div>
-                                <div className="flex w-fit items-center gap-4">
-                                    <div className="grid gap-2">
-                                        <Skeleton className="h-4 w-[150px]" />
-                                        <Skeleton className="h-4 w-[100px]" />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        {userList === undefined && <FormSkeleton />}
                         {userList !== undefined && (
                             <form
                                 onSubmit={handleSubmit((data) =>

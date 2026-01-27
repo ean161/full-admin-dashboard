@@ -15,13 +15,13 @@ import {
     FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
 import useEditUser from "@/hooks/users/useEditUser";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditUserSchema } from "@/modules/users/user.types";
 import Header from "@/components/layout/users/Header";
+import FormSkeleton from "./FormSkeleton";
 
 export default function EditUser() {
     const params = useParams();
@@ -47,11 +47,7 @@ export default function EditUser() {
                         <CardDescription>ID: #{params.id}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        {user === undefined && (
-                            <div className="flex justify-center">
-                                <Spinner />
-                            </div>
-                        )}
+                        {user === undefined && <FormSkeleton />}
                         {user !== undefined && (
                             <form
                                 onSubmit={handleSubmit((data) =>
