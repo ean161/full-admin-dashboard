@@ -28,17 +28,11 @@ export default function useEditUser({ id }: UseEditUserProps) {
 
     const fetchUpdateUser = async () => {
         startTransaction(async () => {
-            const res = await api({
+            await api({
                 url: `/api/users/${id}`,
                 method: "PATCH",
                 body: form,
             });
-
-            if (res?.status == "success") {
-                setTimeout(() => {
-                    router.replace(`/users/${id}`);
-                }, 1500);
-            }
         });
     };
 

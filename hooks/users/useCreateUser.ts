@@ -9,17 +9,11 @@ export default function useCreateUser() {
 
     const fetchCreateUser = async () => {
         startTransaction(async () => {
-            const res = await api({
+            await api({
                 url: `/api/users`,
                 method: "POST",
                 body: form,
             });
-
-            if (res?.status == "success") {
-                setTimeout(() => {
-                    router.replace(`/users/${res?.data}`);
-                }, 1500);
-            }
         });
     };
 

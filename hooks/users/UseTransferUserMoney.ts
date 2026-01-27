@@ -24,17 +24,11 @@ export default function useTransferUserMoney() {
 
     const fetchTransferUserMoney = async () => {
         startTransaction(async () => {
-            const res = await api({
+            await api({
                 url: `/api/users/transfer-money`,
                 method: "POST",
                 body: form,
             });
-
-            if (res?.status == "success") {
-                setTimeout(() => {
-                    router.replace(`/users`);
-                }, 1500);
-            }
         });
     };
 
