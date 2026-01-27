@@ -44,15 +44,6 @@ export default function AppSidebar() {
                                     <Link href="/users">User management</Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
-                            {/* Hide product management to focus to user managemet features */}
-                            {/* <SidebarMenuItem>
-                                <SidebarMenuButton>
-                                    <List />
-                                    <Link href="/products">
-                                        Product management
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem> */}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
