@@ -63,6 +63,10 @@ export const UserService = {
     },
 
     async transferMoney(data: TransferUserMoneyProps) {
+        if (data.sender == data.receiver) {
+            throw new Error("Sender cant be transfer themself");
+        }
+
         const sender = await this.getUserById({
             id: data.sender,
         });

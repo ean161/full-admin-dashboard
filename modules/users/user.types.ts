@@ -30,7 +30,7 @@ export const TransferUserMoneySchema = z.object({
         .uuid("Invalid recevier user id"),
     amount: z.coerce
         .number("Amount must be a number")
-        .min(0, "Amount must be greater than 0")
+        .min(1, "Amount must be greater than 0")
         .default(0),
 });
 

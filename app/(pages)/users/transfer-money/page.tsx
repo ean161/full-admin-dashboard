@@ -74,9 +74,13 @@ export default function UserDetails() {
                                         <FieldLabel>Amount</FieldLabel>
                                         <Input
                                             {...register("amount")}
-                                            type="number"
                                             defaultValue={0}
                                         />
+                                        {errors.amount && (
+                                            <FieldDescription className="text-red-500">
+                                                {errors.amount.message}
+                                            </FieldDescription>
+                                        )}
                                     </Field>
                                     <Field>
                                         <FieldLabel>Receiver</FieldLabel>

@@ -90,7 +90,6 @@ export default function UserDetails() {
                                         <FieldContent>
                                             <Input
                                                 {...register("balance")}
-                                                type="number"
                                                 defaultValue={
                                                     user?.balance ?? 0
                                                 }
