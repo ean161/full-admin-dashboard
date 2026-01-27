@@ -12,3 +12,12 @@ export const EditUserSchema = z.object({
         .optional()
         .default(0),
 });
+
+export const CreateUserSchema = z.object({
+    username: z.string().min(1, "Username is require"),
+    balance: z.coerce
+        .number("Balance must be a number")
+        .min(0, "Balance must be greater than or equal 0")
+        .optional()
+        .default(0),
+});

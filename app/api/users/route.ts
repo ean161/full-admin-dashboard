@@ -1,7 +1,7 @@
 import { parseError } from "@/lib/parseError";
 import { UserService } from "@/modules/users/user.service";
+import { CreateUserSchema } from "@/modules/users/user.types";
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -19,24 +19,16 @@ export async function GET(req: Request) {
     });
 }
 
-const PostSchema = z.object({
-    username: z.string().min(1, "Username is require"),
-    balance: z.coerce
-        .number("Balance must be a number")
-        .min(0, "Balance must be greater than or equal 0")
-        .optional()
-        .default(0),
-});
-
 export async function POST(req: Request) {
     try {
         const payload = await req.json();
-        const data = PostSchema.parse(payload);
-        await UserService.create(data);
+        const data = CreateUserSchema.parse(payload);
+        const userId = await UserService.create(data);
 
         return NextResponse.json({
             status: "success",
             message: "User added successfully",
+            data: userId,
         });
     } catch (err: any) {
         return NextResponse.json({

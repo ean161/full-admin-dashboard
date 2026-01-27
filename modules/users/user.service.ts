@@ -30,7 +30,9 @@ export const UserService = {
             throw new Error("Duplicated username");
         }
 
-        return await UserRepository.insertUserWithUsernameAndBalance(data);
+        const user =
+            await UserRepository.insertUserWithUsernameAndBalance(data);
+        return user[0].id;
     },
 
     async delete(data: Pick<User, "id">) {

@@ -65,7 +65,7 @@ export const UserRepository = {
             throw new Error("Username duplicated");
         }
 
-        await db.insert(users).values(data).execute();
+        return await db.insert(users).values(data).returning().execute();
     },
 
     async deleteUserById(data: Pick<User, "id">) {

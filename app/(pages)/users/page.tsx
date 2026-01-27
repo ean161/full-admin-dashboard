@@ -1,8 +1,9 @@
 "use client";
-
-import AddForm from "@/components/shared/AddForm";
 import DataTable from "@/components/shared/Datatable";
+import { Button } from "@/components/ui/button";
 import useUser from "@/hooks/users/useUsers";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function User() {
@@ -26,23 +27,12 @@ export default function User() {
                         Create, update, delete users
                     </p>
                 </div>
-                <AddForm
-                    topic="user"
-                    refresh={refresh}
-                    handleUrl="/api/users"
-                    fields={[
-                        {
-                            id: "username",
-                            title: "Username",
-                            type: "text",
-                        },
-                        {
-                            id: "balance",
-                            title: "Balance ($)",
-                            type: "number",
-                        },
-                    ]}
-                />
+                <Link href="/users/create">
+                    <Button>
+                        <Plus />
+                        <span>Create</span>
+                    </Button>
+                </Link>
             </div>
             <DataTable columns={cols} url="/api/users" refresh={refreshKey} />
         </>
