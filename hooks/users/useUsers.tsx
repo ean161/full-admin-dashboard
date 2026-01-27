@@ -5,7 +5,7 @@ import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { Ellipsis, ExternalLink, PenLine, X } from "lucide-react";
 
 type TableData = {
     id: string;
@@ -76,12 +76,12 @@ export default function useUser({ refresh }: UseUserProps) {
                     <div className="space-x-2 cursor-pointer">
                         <Link href={`/users/${id}`}>
                             <Button variant={"secondary"} disabled={isPending}>
-                                Details
+                                <Ellipsis />
                             </Button>
                         </Link>
                         <Link href={`/users/${id}/edit`}>
                             <Button variant={"default"} disabled={isPending}>
-                                Edit
+                                <PenLine />
                             </Button>
                         </Link>
                         <Button
@@ -89,7 +89,7 @@ export default function useUser({ refresh }: UseUserProps) {
                             variant={"destructive"}
                             disabled={isPending}
                         >
-                            Delete
+                            <X />
                         </Button>
                     </div>
                 );
