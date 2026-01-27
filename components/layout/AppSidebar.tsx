@@ -11,15 +11,19 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from "@/components/ui/sidebar";
 import { AuthContext } from "@/contexts/AuthProvider";
 import { House, List, User2 } from "lucide-react";
 import Link from "next/link";
 import { useContext } from "react";
 import { Badge } from "../ui/badge";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function AppSidebar() {
     const auth = useContext(AuthContext);
+    const isMobile = useIsMobile();
+    const { toggleSidebar } = useSidebar();
 
     return (
         <Sidebar>
@@ -39,7 +43,11 @@ export default function AppSidebar() {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton>
+                                <SidebarMenuButton
+                                    onClick={
+                                        isMobile ? toggleSidebar : () => {}
+                                    }
+                                >
                                     <List />
                                     <Link href="/users">User management</Link>
                                 </SidebarMenuButton>

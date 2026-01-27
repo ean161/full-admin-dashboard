@@ -18,12 +18,14 @@ export default function Header({ hasFullFeats = false }: HeaderProps) {
                 </p>
             </div>
             {!hasFullFeats && (
-                <Link href="/users">
-                    <Button variant={"secondary"}>
-                        <ChevronLeft />
-                        <span>Back</span>
-                    </Button>
-                </Link>
+                <div className="mt-6 flex justify-end">
+                    <Link href="/users">
+                        <Button variant={"secondary"}>
+                            <ChevronLeft />
+                            <span>Back</span>
+                        </Button>
+                    </Link>
+                </div>
             )}
             {hasFullFeats && (
                 <div className="flex space-x-2 mt-6 md:mt-0 justify-end">

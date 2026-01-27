@@ -31,7 +31,7 @@ export default function UserDetails() {
     return (
         <>
             <Header hasFullFeats={false} />
-            <div className="w-full md:w-1/3 mx-auto">
+            <div className="xl:w-1/3 mx-auto">
                 <Card className="border-dashed shadow-none">
                     <CardHeader>
                         <CardTitle>User details</CardTitle>
