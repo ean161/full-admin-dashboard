@@ -22,18 +22,26 @@ import { CreateUserSchema } from "@/modules/users/user.types";
 import useCreateUser from "@/hooks/users/useCreateUser";
 import Header from "@/components/layout/users/Header";
 import { Spinner } from "@/components/ui/spinner";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Dices } from "lucide-react";
+import { rand } from "@/lib/utils";
 
 export default function UserDetails() {
     const params = useParams();
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm({
         resolver: zodResolver(CreateUserSchema),
     });
 
     const { isPending, setForm } = useCreateUser();
+
+    const generateUsername = () => {
+        setValue("username", `user${rand(111111, 999999)}`);
+    };
 
     return (
         <>
@@ -53,9 +61,17 @@ export default function UserDetails() {
                             <FieldGroup>
                                 <Field>
                                     <FieldLabel>Username</FieldLabel>
-                                    <FieldContent>
+                                    <ButtonGroup>
                                         <Input {...register("username")} />
-                                    </FieldContent>
+                                        <Button
+                                            onClick={generateUsername}
+                                            type="button"
+                                            variant="outline"
+                                            aria-label="Search"
+                                        >
+                                            <Dices />
+                                        </Button>
+                                    </ButtonGroup>
                                     {errors.username && (
                                         <FieldDescription className="text-red-500">
                                             {errors.username.message}
