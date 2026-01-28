@@ -88,6 +88,7 @@ export default function EditUser() {
                                         <FieldContent>
                                             <Input
                                                 {...register("username")}
+                                                placeholder="Enter username"
                                                 defaultValue={
                                                     user?.username ?? ""
                                                 }
@@ -104,6 +105,7 @@ export default function EditUser() {
                                         <FieldContent>
                                             <Input
                                                 {...register("balance")}
+                                                placeholder="Enter balance"
                                                 defaultValue={
                                                     user?.balance ?? 0
                                                 }

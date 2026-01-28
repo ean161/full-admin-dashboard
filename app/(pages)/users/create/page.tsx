@@ -62,7 +62,10 @@ export default function UserDetails() {
                                 <Field>
                                     <FieldLabel>Username</FieldLabel>
                                     <ButtonGroup>
-                                        <Input {...register("username")} />
+                                        <Input
+                                            {...register("username")}
+                                            placeholder="Enter username"
+                                        />
                                         <Button
                                             onClick={generateUsername}
                                             type="button"
@@ -83,6 +86,7 @@ export default function UserDetails() {
                                     <FieldContent>
                                         <Input
                                             {...register("balance")}
+                                            placeholder="Enter amount"
                                             defaultValue={0}
                                         />
                                     </FieldContent>

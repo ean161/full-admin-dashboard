@@ -90,7 +90,8 @@ export default function UserDetails() {
                                         <Input
                                             className="text-center"
                                             {...register("amount")}
-                                            defaultValue={0}
+                                            placeholder="Enter amount"
+                                            defaultValue={1}
                                         />
                                         {errors.amount && (
                                             <FieldDescription className="text-red-500">
