@@ -10,7 +10,6 @@ import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransferUserMoneySchema } from "@/modules/users/user.types";
-import useTransferUserMoney from "@/hooks/users/UseTransferUserMoney";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,6 +18,7 @@ import Header from "@/components/layout/users/Header";
 import { ChevronsRight, UserRound } from "lucide-react";
 import FormSkeleton from "./FormSkeleton";
 import { Spinner } from "@/components/ui/spinner";
+import useTransferUserMoney from "@/hooks/users/useTransferUserMoney";
 
 export default function UserDetails() {
     const params = useParams();
