@@ -23,6 +23,7 @@ import { EditUserSchema } from "@/modules/users/user.types";
 import Header from "@/components/layout/users/Header";
 import FormSkeleton from "./FormSkeleton";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "sonner";
 
 export default function EditUser() {
     const params = useParams();
@@ -37,6 +38,22 @@ export default function EditUser() {
     const { isPending, isDeleting, user, setForm, handleDelete } = useEditUser({
         id: String(params.id),
     });
+
+    const deleteConfirmation = (id: string, username: string) => {
+        toast(`Do you want to delete "${username}"?`, {
+            action: {
+                label: "Yes",
+                onClick: () => handleDelete(id),
+            },
+            style: {
+                "--normal-bg":
+                    "light-dark(var(--color-amber-600), var(--color-amber-400))",
+                "--normal-text": "var(--color-white)",
+                "--normal-border":
+                    "light-dark(var(--color-amber-600), var(--color-amber-400))",
+            } as React.CSSProperties,
+        });
+    };
 
     return (
         <>
@@ -113,9 +130,13 @@ export default function EditUser() {
                                             </Button>
                                             <Button
                                                 onClick={() =>
-                                                    handleDelete(user?.id)
+                                                    deleteConfirmation(
+                                                        user?.id,
+                                                        user?.username ??
+                                                            "UNKNOWN",
+                                                    )
                                                 }
-                                                type="submit"
+                                                type="button"
                                                 variant={"destructive"}
                                                 disabled={
                                                     isPending || isDeleting
