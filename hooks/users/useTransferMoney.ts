@@ -3,7 +3,7 @@ import { User } from "@/modules/users/user.types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 
-export default function useTransferUserMoney() {
+export default function useTransferMoney() {
     const router = useRouter();
     const [userList, setUserList] = useState<User[]>();
     const [form, setForm] = useState<string>();

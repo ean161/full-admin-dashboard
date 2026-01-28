@@ -18,7 +18,7 @@ import Header from "@/components/layout/users/Header";
 import { ChevronsRight, UserRound } from "lucide-react";
 import FormSkeleton from "./FormSkeleton";
 import { Spinner } from "@/components/ui/spinner";
-import useTransferUserMoney from "@/hooks/users/useTransferUserMoney";
+import useTransferMoney from "@/hooks/users/useTransferMoney";
 
 export default function UserDetails() {
     const params = useParams();
@@ -30,7 +30,7 @@ export default function UserDetails() {
         resolver: zodResolver(TransferUserMoneySchema),
     });
 
-    const { isPending, userList, setForm } = useTransferUserMoney();
+    const { isPending, userList, setForm } = useTransferMoney();
 
     return (
         <>
