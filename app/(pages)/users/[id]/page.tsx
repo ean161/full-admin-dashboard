@@ -23,7 +23,7 @@ import FormSkeleton from "./FormSkeleton";
 export default function UserDetails() {
     const params = useParams();
 
-    const { user } = useUserDetails({
+    const { user, isFetching } = useUserDetails({
         id: String(params.id),
     });
 
@@ -37,8 +37,8 @@ export default function UserDetails() {
                         <CardDescription>ID: #{params.id}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        {user === undefined && <FormSkeleton />}
-                        {user !== undefined && (
+                        {isFetching && <FormSkeleton />}
+                        {!isFetching && user !== undefined && (
                             <FieldGroup>
                                 <Field>
                                     <FieldLabel>ID</FieldLabel>

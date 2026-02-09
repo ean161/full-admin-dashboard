@@ -1,32 +1,32 @@
 import { api } from "@/lib/api";
 import { User } from "@/modules/users/user.types";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 type UseUserDetailsProps = {
     id: string;
 };
 
 export default function useUserDetails({ id }: UseUserDetailsProps) {
-    const [user, setUser] = useState<User>();
     const router = useRouter();
 
-    const fetchUser = async () => {
+    const fetchUser = async (props: { id: string }) => {
         const res = await api({
-            url: `/api/users/${id}`,
+            url: `/api/users/${props.id}`,
             method: "GET",
         });
 
         if (res?.status == "success") {
-            setUser(res.data);
+            return res.data as User;
         } else if (res?.status == "error") {
             router.replace("/users");
         }
     };
 
-    useEffect(() => {
-        fetchUser();
-    }, []);
+    const { data: user, isFetching } = useQuery({
+        queryKey: ["details", id],
+        queryFn: () => fetchUser({ id }),
+    });
 
-    return { user };
+    return { user, isFetching };
 }
