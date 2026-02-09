@@ -1,13 +1,11 @@
 import { api } from "@/lib/api";
 import { User } from "@/modules/users/user.types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
 
 export default function useTransferMoney() {
     const router = useRouter();
-    const [userList, setUserList] = useState<User[]>();
-    const [form, setForm] = useState<string>();
-    const [isPending, startTransaction] = useTransition();
+    const queryClient = useQueryClient();
 
     const fetchUserList = async () => {
         const res = await api({
@@ -16,36 +14,35 @@ export default function useTransferMoney() {
         });
 
         if (res?.status == "success") {
-            setUserList(res.data);
+            return res.data as User[];
         } else if (res?.status == "error") {
             router.replace("/users");
         }
     };
 
-    const fetchTransferUserMoney = async () => {
-        startTransaction(async () => {
-            const res = await api({
-                url: `/api/users/transfer-money`,
-                method: "POST",
-                body: form,
-            });
+    const { data: userList, isFetching: isListFetching } = useQuery({
+        queryKey: ["user-list"],
+        queryFn: fetchUserList,
+    });
 
-            if (res?.status == "success") {
-                setUserList(undefined);
-                fetchUserList();
-            }
+    const fetchTransferUserMoney = async (props: { form: string }) => {
+        const res = await api({
+            url: `/api/users/transfer-money`,
+            method: "POST",
+            body: props.form,
         });
+
+        if (res?.status == "success") {
+            queryClient.invalidateQueries({
+                queryKey: ["user-list"],
+            });
+        }
     };
 
-    useEffect(() => {
-        fetchUserList();
-    }, []);
+    const transferMoneyMutation = useMutation({
+        mutationKey: ["transfer-money"],
+        mutationFn: fetchTransferUserMoney,
+    });
 
-    useEffect(() => {
-        if (form != undefined) {
-            fetchTransferUserMoney();
-        }
-    }, [form]);
-
-    return { isPending, userList, setForm };
+    return { isPending: isListFetching, userList, transferMoneyMutation };
 }

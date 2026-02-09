@@ -30,7 +30,7 @@ export default function UserDetails() {
         resolver: zodResolver(TransferUserMoneySchema),
     });
 
-    const { isPending, userList, setForm } = useTransferMoney();
+    const { isPending, userList, transferMoneyMutation } = useTransferMoney();
 
     return (
         <>
@@ -44,11 +44,13 @@ export default function UserDetails() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        {userList === undefined && <FormSkeleton />}
-                        {userList !== undefined && (
+                        {isPending && <FormSkeleton />}
+                        {!isPending && userList != undefined && (
                             <form
                                 onSubmit={handleSubmit((data) =>
-                                    setForm(JSON.stringify(data)),
+                                    transferMoneyMutation.mutate({
+                                        form: JSON.stringify(data),
+                                    }),
                                 )}
                                 className="space-y-4 md:space-y-0"
                             >

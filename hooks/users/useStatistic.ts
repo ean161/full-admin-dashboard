@@ -1,12 +1,6 @@
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 
-type StatisticData = {
-    totalUser: number;
-    totalBalance: number;
-    averageBalance: number;
-};
-
 export default function UseStatistic() {
     const fetchStatistic = async () => {
         const res = await api({
