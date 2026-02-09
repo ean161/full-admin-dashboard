@@ -1,7 +1,6 @@
 import { api } from "@/lib/api";
-import { User } from "@/modules/users/user.types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
 
 type UseEditUserProps = {
     id: string;
@@ -9,10 +8,6 @@ type UseEditUserProps = {
 
 export default function useEditUser({ id }: UseEditUserProps) {
     const router = useRouter();
-    const [user, setUser] = useState<User>();
-    const [form, setForm] = useState<string>();
-    const [isPending, startTransaction] = useTransition();
-    const [isDeleting, startDeleting] = useTransition();
 
     const fetchUser = async () => {
         const res = await api({
@@ -21,44 +16,45 @@ export default function useEditUser({ id }: UseEditUserProps) {
         });
 
         if (res?.status == "success") {
-            setUser(res.data);
+            return res.data;
         } else if (res?.status == "error") {
             router.replace("/users");
         }
     };
 
-    const fetchUpdateUser = async () => {
-        startTransaction(async () => {
-            await api({
-                url: `/api/users/${id}`,
-                method: "PATCH",
-                body: form,
-            });
+    const { data: user, isFetching: isDetailsFetching } = useQuery({
+        queryKey: ["user", id],
+        queryFn: fetchUser,
+    });
+
+    const fetchUpdateUser = async (props: { id: string; form: string }) => {
+        await api({
+            url: `/api/users/${props.id}`,
+            method: "PATCH",
+            body: props.form,
         });
     };
 
-    const handleDelete = (id: string) => {
-        startDeleting(async () => {
-            const req = await api({
-                url: `/api/users/${id}`,
-                method: "DELETE",
-            });
+    const updateMutation = useMutation({
+        mutationKey: ["update-user"],
+        mutationFn: fetchUpdateUser,
+    });
 
-            if (req?.status == "success") {
-                router.replace("/users");
-            }
+    const fetchDeleteUser = async (props: { id: string }) => {
+        const req = await api({
+            url: `/api/users/${props.id}`,
+            method: "DELETE",
         });
-    };
 
-    useEffect(() => {
-        fetchUser();
-    }, []);
-
-    useEffect(() => {
-        if (form != undefined) {
-            fetchUpdateUser();
+        if (req?.status == "success") {
+            router.replace("/users");
         }
-    }, [form]);
+    };
 
-    return { isPending, isDeleting, user, setForm, handleDelete };
+    const deleteMutation = useMutation({
+        mutationKey: ["delete-user"],
+        mutationFn: fetchDeleteUser,
+    });
+
+    return { user, isDetailsFetching, updateMutation, deleteMutation };
 }

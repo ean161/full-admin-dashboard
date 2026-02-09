@@ -35,15 +35,16 @@ export default function EditUser() {
         resolver: zodResolver(EditUserSchema),
     });
 
-    const { isPending, isDeleting, user, setForm, handleDelete } = useEditUser({
-        id: String(params.id),
-    });
+    const { user, isDetailsFetching, updateMutation, deleteMutation } =
+        useEditUser({
+            id: String(params.id),
+        });
 
     const deleteConfirmation = (id: string, username: string) => {
         toast(`Do you want to delete "${username}"?`, {
             action: {
                 label: "Yes",
-                onClick: () => handleDelete(id),
+                onClick: () => deleteMutation.mutate({ id }),
             },
             style: {
                 "--normal-bg":
@@ -69,7 +70,10 @@ export default function EditUser() {
                         {user !== undefined && (
                             <form
                                 onSubmit={handleSubmit((data) =>
-                                    setForm(JSON.stringify(data)),
+                                    updateMutation.mutate({
+                                        id: String(params.id),
+                                        form: JSON.stringify(data),
+                                    }),
                                 )}
                             >
                                 <FieldGroup>
@@ -123,11 +127,17 @@ export default function EditUser() {
                                                 type="submit"
                                                 variant={"default"}
                                                 disabled={
-                                                    isPending || isDeleting
+                                                    isDetailsFetching ||
+                                                    updateMutation.isPending ||
+                                                    deleteMutation.isPending
                                                 }
                                                 className="w-fit cursor-pointer"
                                             >
-                                                {isPending && <Spinner />}
+                                                {(isDetailsFetching ||
+                                                    updateMutation.isPending ||
+                                                    deleteMutation.isPending) && (
+                                                    <Spinner />
+                                                )}
                                                 Save changes
                                             </Button>
                                             <Button
@@ -141,11 +151,17 @@ export default function EditUser() {
                                                 type="button"
                                                 variant={"destructive"}
                                                 disabled={
-                                                    isPending || isDeleting
+                                                    isDetailsFetching ||
+                                                    updateMutation.isPending ||
+                                                    deleteMutation.isPending
                                                 }
                                                 className="w-fit cursor-pointer"
                                             >
-                                                {isDeleting && <Spinner />}
+                                                {(isDetailsFetching ||
+                                                    updateMutation.isPending ||
+                                                    deleteMutation.isPending) && (
+                                                    <Spinner />
+                                                )}
                                                 Delete
                                             </Button>
                                         </div>
