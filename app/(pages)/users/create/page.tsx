@@ -15,7 +15,6 @@ import {
     FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateUserSchema } from "@/modules/users/user.types";
@@ -27,7 +26,6 @@ import { Dices } from "lucide-react";
 import { rand } from "@/lib/utils";
 
 export default function UserDetails() {
-    const params = useParams();
     const {
         register,
         handleSubmit,
@@ -37,7 +35,7 @@ export default function UserDetails() {
         resolver: zodResolver(CreateUserSchema),
     });
 
-    const { isPending, setForm } = useCreateUser();
+    const { createMutation } = useCreateUser();
 
     const generateUsername = () => {
         setValue("username", `user${rand(111111, 999999)}`);
@@ -55,7 +53,9 @@ export default function UserDetails() {
                     <CardContent>
                         <form
                             onSubmit={handleSubmit((data) =>
-                                setForm(JSON.stringify(data)),
+                                createMutation.mutate({
+                                    form: JSON.stringify(data),
+                                }),
                             )}
                         >
                             <FieldGroup>
@@ -101,10 +101,12 @@ export default function UserDetails() {
                                         <Button
                                             type="submit"
                                             variant={"default"}
-                                            disabled={isPending}
+                                            disabled={createMutation.isPending}
                                             className="w-fit cursor-pointer"
                                         >
-                                            {isPending && <Spinner />}
+                                            {createMutation.isPending && (
+                                                <Spinner />
+                                            )}
                                             Submit
                                         </Button>
                                     </FieldContent>

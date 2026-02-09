@@ -1,31 +1,26 @@
 import { api } from "@/lib/api";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
 
 export default function useCreateUser() {
     const router = useRouter();
-    const [form, setForm] = useState<string>();
-    const [isPending, startTransaction] = useTransition();
 
-    const fetchCreateUser = async () => {
-        startTransaction(async () => {
-            const res = await api({
-                url: `/api/users`,
-                method: "POST",
-                body: form,
-            });
-
-            if (res?.status == "success") {
-                router.replace(`/users/${res.data}`);
-            }
+    const fetchCreateUser = async (props: { form: string }) => {
+        const res = await api({
+            url: `/api/users`,
+            method: "POST",
+            body: props.form,
         });
+
+        if (res?.status == "success") {
+            router.replace(`/users/${res.data}`);
+        }
     };
 
-    useEffect(() => {
-        if (form != undefined) {
-            fetchCreateUser();
-        }
-    }, [form]);
+    const createMutation = useMutation({
+        mutationKey: ["create-user"],
+        mutationFn: fetchCreateUser,
+    });
 
-    return { isPending, setForm };
+    return { createMutation };
 }
