@@ -39,11 +39,11 @@ export async function PATCH(
         payload.id = id;
 
         const data = EditUserSchema.parse(payload);
-        await UserService.update(data);
+        const res = await UserService.update(data);
 
         return NextResponse.json({
             status: "success",
-            message: "User updated successfully",
+            message: "User " + res[0].username + " updated successfully",
         });
     } catch (err: any) {
         return NextResponse.json({
@@ -64,11 +64,11 @@ export async function DELETE(
     try {
         const payload = await params;
         const data = DeleteSchema.parse(payload);
-        await UserService.delete(data);
+        const res = await UserService.delete(data);
 
         return NextResponse.json({
             status: "success",
-            message: "User deleted successfully",
+            message: "User " + res[0].username + " deleted successfully",
         });
     } catch (err: any) {
         return NextResponse.json({

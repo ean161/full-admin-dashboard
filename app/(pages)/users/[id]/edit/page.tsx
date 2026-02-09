@@ -120,33 +120,29 @@ export default function EditUser() {
                                                 variant={"default"}
                                                 disabled={
                                                     isDetailsFetching ||
-                                                    updateMutation.isPending ||
-                                                    deleteMutation.isPending
+                                                    updateMutation.isPending
                                                 }
                                                 className="w-fit cursor-pointer"
                                             >
                                                 {(isDetailsFetching ||
-                                                    updateMutation.isPending ||
-                                                    deleteMutation.isPending) && (
+                                                    updateMutation.isPending) && (
                                                     <Spinner />
                                                 )}
                                                 Save changes
                                             </Button>
 
                                             <Dialog>
-                                                <DialogTrigger>
+                                                <DialogTrigger asChild>
                                                     <Button
                                                         type="button"
                                                         variant={"destructive"}
                                                         disabled={
                                                             isDetailsFetching ||
-                                                            updateMutation.isPending ||
                                                             deleteMutation.isPending
                                                         }
                                                         className="w-fit cursor-pointer"
                                                     >
                                                         {(isDetailsFetching ||
-                                                            updateMutation.isPending ||
                                                             deleteMutation.isPending) && (
                                                             <Spinner />
                                                         )}
@@ -183,13 +179,11 @@ export default function EditUser() {
                                                             }
                                                             disabled={
                                                                 isDetailsFetching ||
-                                                                updateMutation.isPending ||
                                                                 deleteMutation.isPending
                                                             }
                                                             className="w-fit cursor-pointer"
                                                         >
                                                             {(isDetailsFetching ||
-                                                                updateMutation.isPending ||
                                                                 deleteMutation.isPending) && (
                                                                 <Spinner />
                                                             )}

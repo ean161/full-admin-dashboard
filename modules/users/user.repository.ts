@@ -74,17 +74,22 @@ export const UserRepository = {
     },
 
     async deleteUserById(data: Pick<User, "id">) {
-        await db.delete(users).where(eq(users.id, data.id)).execute();
+        return await db
+            .delete(users)
+            .where(eq(users.id, data.id))
+            .returning()
+            .execute();
     },
 
     async updateUserById(data: Pick<User, "id" | "username" | "balance">) {
-        await db
+        return await db
             .update(users)
             .set({
                 username: data.username,
                 balance: data.balance ?? 0,
             })
             .where(sql`${users.id}::text ilike ${data.id}`)
+            .returning()
             .execute();
     },
 
