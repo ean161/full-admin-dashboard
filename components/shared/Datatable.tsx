@@ -5,6 +5,7 @@ import {
     flexRender,
     ColumnDef,
 } from "@tanstack/react-table";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
@@ -33,9 +34,7 @@ export default function DataTable({
     pageSize = 10,
     refresh,
 }: DataTableProps) {
-    const [list, setList] = useState<any[]>();
     const [search, setSearch] = useState("");
-    const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [debouncedSearch, setDebouncedSearch] = useState(search);
 
@@ -57,6 +56,31 @@ export default function DataTable({
         return () => clearTimeout(timer);
     }, [search]);
 
+    const fetchList = async (props: {
+        search: string;
+        page: number;
+        limit: number;
+    }) => {
+        const req = await api({
+            isSilent: true,
+            url: `${url}${url.includes("?") ? "&" : "?"}search=${props.search ?? ""}&page=${props.page}&limit=${props.limit}`,
+        });
+
+        return {
+            list: req.data.items,
+            total: req.data.total,
+        };
+    };
+
+    const { data, isFetching } = useQuery({
+        queryKey: ["list", debouncedSearch, page, pageSize, refresh],
+        queryFn: () =>
+            fetchList({ search: debouncedSearch, page, limit: pageSize }),
+    });
+
+    const { list, total } = data ?? { list: [], total: 0 };
+    const totalPages = Math.ceil(total / pageSize);
+
     const table = useReactTable({
         data: list ?? [],
         columns,
@@ -64,28 +88,6 @@ export default function DataTable({
         manualPagination: true,
         pageCount: Math.ceil(total / pageSize),
     });
-
-    const fetchList = async (search?: string) => {
-        const req = await api({
-            isSilent: true,
-            url: `${url}${url.includes("?") ? "&" : "?"}search=${search ?? ""}&page=${page}&limit=${pageSize}`,
-        });
-
-        if (!req?.data) {
-            setList([]);
-            return;
-        }
-
-        setList(req.data.items);
-        setTotal(req.data.total);
-    };
-
-    useEffect(() => {
-        setList(undefined);
-        fetchList(debouncedSearch);
-    }, [debouncedSearch, page, refresh]);
-
-    const totalPages = Math.ceil(total / pageSize);
 
     return (
         <div className="space-y-4">
@@ -118,7 +120,9 @@ export default function DataTable({
                     ))}
                 </TableHeader>
                 <TableBody>
-                    {list !== undefined && table.getRowModel().rows?.length ? (
+                    {isFetching ? (
+                        TableSkeleton
+                    ) : table.getRowModel().rows.length > 0 ? (
                         table.getRowModel().rows.map((row) => (
                             <TableRow
                                 key={row.id}
@@ -134,14 +138,14 @@ export default function DataTable({
                                 ))}
                             </TableRow>
                         ))
-                    ) : list === undefined ? (
-                        TableSkeleton
                     ) : (
                         <TableRow>
                             <TableCell
                                 colSpan={columns.length}
-                                className="text-center align-middle"
-                            ></TableCell>
+                                className="text-center text-muted-foreground"
+                            >
+                                No data
+                            </TableCell>
                         </TableRow>
                     )}
                 </TableBody>

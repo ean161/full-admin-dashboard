@@ -6,6 +6,7 @@ import AppSidebar from "@/components/layout/AppSidebar";
 import { Toaster } from "@/components/ui/sonner";
 import AuthProvider from "@/contexts/AuthProvider";
 import AppSidebarTrigger from "@/components/layout/AppSidebarTrigger";
+import QueryProvider from "@/contexts/QueryProvider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -32,16 +33,18 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <AuthProvider>
-                    <SidebarProvider>
-                        <AppSidebar />
-                        <main className="w-full flex flex-1 flex-col gap-6 px-4 py-4 md:px-8 md:py-4">
-                            <AppSidebarTrigger />
-                            <div className="mt-2">{children}</div>
-                        </main>
-                        <Toaster />
-                    </SidebarProvider>
-                </AuthProvider>
+                <QueryProvider>
+                    <AuthProvider>
+                        <SidebarProvider>
+                            <AppSidebar />
+                            <main className="w-full flex flex-1 flex-col gap-6 px-4 py-4 md:px-8 md:py-4">
+                                <AppSidebarTrigger />
+                                <div className="mt-2">{children}</div>
+                            </main>
+                            <Toaster />
+                        </SidebarProvider>
+                    </AuthProvider>
+                </QueryProvider>
             </body>
         </html>
     );
