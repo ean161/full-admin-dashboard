@@ -23,7 +23,15 @@ import { EditUserSchema } from "@/modules/users/user.types";
 import Header from "@/components/layout/users/Header";
 import FormSkeleton from "./FormSkeleton";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function EditUser() {
     const params = useParams();
@@ -39,22 +47,6 @@ export default function EditUser() {
         useEditUser({
             id: String(params.id),
         });
-
-    const deleteConfirmation = (id: string, username: string) => {
-        toast(`Do you want to delete "${username}"?`, {
-            action: {
-                label: "Yes",
-                onClick: () => deleteMutation.mutate({ id }),
-            },
-            style: {
-                "--normal-bg":
-                    "light-dark(var(--color-amber-600), var(--color-amber-400))",
-                "--normal-text": "var(--color-white)",
-                "--normal-border":
-                    "light-dark(var(--color-amber-600), var(--color-amber-400))",
-            } as React.CSSProperties,
-        });
-    };
 
     return (
         <>
@@ -140,30 +132,72 @@ export default function EditUser() {
                                                 )}
                                                 Save changes
                                             </Button>
-                                            <Button
-                                                onClick={() =>
-                                                    deleteConfirmation(
-                                                        user?.id,
-                                                        user?.username ??
-                                                            "UNKNOWN",
-                                                    )
-                                                }
-                                                type="button"
-                                                variant={"destructive"}
-                                                disabled={
-                                                    isDetailsFetching ||
-                                                    updateMutation.isPending ||
-                                                    deleteMutation.isPending
-                                                }
-                                                className="w-fit cursor-pointer"
-                                            >
-                                                {(isDetailsFetching ||
-                                                    updateMutation.isPending ||
-                                                    deleteMutation.isPending) && (
-                                                    <Spinner />
-                                                )}
-                                                Delete
-                                            </Button>
+
+                                            <Dialog>
+                                                <DialogTrigger>
+                                                    <Button
+                                                        type="button"
+                                                        variant={"destructive"}
+                                                        disabled={
+                                                            isDetailsFetching ||
+                                                            updateMutation.isPending ||
+                                                            deleteMutation.isPending
+                                                        }
+                                                        className="w-fit cursor-pointer"
+                                                    >
+                                                        {(isDetailsFetching ||
+                                                            updateMutation.isPending ||
+                                                            deleteMutation.isPending) && (
+                                                            <Spinner />
+                                                        )}
+                                                        Delete
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>
+                                                            Delete{" "}
+                                                            {user?.username}
+                                                        </DialogTitle>
+                                                        <DialogDescription>
+                                                            ID: {user?.id}
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <p>
+                                                        You want to delete
+                                                        user&nbsp;
+                                                        <b>{user?.username}</b>?
+                                                    </p>
+                                                    <DialogFooter>
+                                                        <Button
+                                                            onClick={() =>
+                                                                deleteMutation.mutate(
+                                                                    {
+                                                                        id: user?.id,
+                                                                    },
+                                                                )
+                                                            }
+                                                            type="button"
+                                                            variant={
+                                                                "destructive"
+                                                            }
+                                                            disabled={
+                                                                isDetailsFetching ||
+                                                                updateMutation.isPending ||
+                                                                deleteMutation.isPending
+                                                            }
+                                                            className="w-fit cursor-pointer"
+                                                        >
+                                                            {(isDetailsFetching ||
+                                                                updateMutation.isPending ||
+                                                                deleteMutation.isPending) && (
+                                                                <Spinner />
+                                                            )}
+                                                            Confirm
+                                                        </Button>
+                                                    </DialogFooter>
+                                                </DialogContent>
+                                            </Dialog>
                                         </div>
                                     </Field>
                                 </FieldGroup>
