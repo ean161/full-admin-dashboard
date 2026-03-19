@@ -13,6 +13,7 @@ type AuthProviderProps = {
     children: ReactNode;
 };
 export default function AuthProvider({ children }: AuthProviderProps) {
+    // Mock data, will be updated later
     const name = "BIWOCO_ACC";
     const role = "TESTER";
 
