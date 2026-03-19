@@ -8,7 +8,7 @@ export const parseError = (data: any) => {
 
     const msg = String(data?.message);
     if (msg.startsWith("Failed query:") || msg.includes('"')) {
-        return "Hệ thống đang quá tải, vui lòng thử lại sau";
+        return "Database was down, please try again";
     }
 
     return msg;
