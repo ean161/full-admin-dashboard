@@ -41,7 +41,7 @@ export async function api(data: ApiProps) {
         return res;
     } catch (err: any) {
         if (!data.isSilent) {
-            toast.error(err?.message ?? "Lỗi không xác định");
+            toast.error(err?.message ?? "Unknown error");
         }
     }
 }
