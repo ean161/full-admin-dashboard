@@ -1,7 +1,5 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Ellipsis, ExternalLink, PenLine } from "lucide-react";
@@ -17,9 +15,6 @@ type UseUserProps = {
 };
 
 export default function useUser({ refresh }: UseUserProps) {
-    const [isPending, startTransaction] = useTransition();
-    const router = useRouter();
-
     const cols: ColumnDef<TableData>[] = [
         {
             id: "id",
@@ -64,7 +59,6 @@ export default function useUser({ refresh }: UseUserProps) {
                             <Button
                                 className="cursor-pointer"
                                 variant={"secondary"}
-                                disabled={isPending}
                             >
                                 <Ellipsis />
                             </Button>
@@ -73,7 +67,6 @@ export default function useUser({ refresh }: UseUserProps) {
                             <Button
                                 className="cursor-pointer"
                                 variant={"default"}
-                                disabled={isPending}
                             >
                                 <PenLine />
                             </Button>
