@@ -31,9 +31,9 @@ export default function User() {
                 </div>
                 <Card className="w-full xl:w-4/5 border-dashed shadow-none">
                     <CardHeader>
-                        <CardTitle>List of user</CardTitle>
+                        <CardTitle>List of users</CardTitle>
                         <CardDescription>
-                            All user registed on system
+                            All user registered on system
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

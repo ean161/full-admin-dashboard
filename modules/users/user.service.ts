@@ -1,5 +1,8 @@
+import { db } from "@/db";
 import { UserRepository } from "./user.repository";
 import { TransferUserMoneyProps, User } from "./user.types";
+import { users } from "@/db/schema";
+import { sql } from "drizzle-orm";
 
 export type GetDataTableProps = {
     search: string;
@@ -79,14 +82,21 @@ export const UserService = {
             throw new Error("Sender balance not enought to transfer");
         }
 
-        await UserRepository.updateBalanceById({
-            id: sender.id,
-            balance: senderBalance - data.amount,
-        });
-
-        await UserRepository.updateBalanceById({
-            id: receiver.id,
-            balance: (receiver.balance ?? 0) + data.amount,
+        await db.transaction(async (tx) => {
+            await tx
+                .update(users)
+                .set({
+                    balance: senderBalance - data.amount,
+                })
+                .where(sql`${users.id}::text ilike ${sender.id}`)
+                .execute();
+            await tx
+                .update(users)
+                .set({
+                    balance: (receiver.balance ?? 0) + data.amount,
+                })
+                .where(sql`${users.id}::text ilike ${receiver.id}`)
+                .execute();
         });
     },
 

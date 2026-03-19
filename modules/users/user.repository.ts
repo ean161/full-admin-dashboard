@@ -93,16 +93,6 @@ export const UserRepository = {
             .execute();
     },
 
-    async updateBalanceById(data: Pick<User, "id" | "balance">) {
-        await db
-            .update(users)
-            .set({
-                balance: data.balance ?? 0,
-            })
-            .where(sql`${users.id}::text ilike ${data.id}`)
-            .execute();
-    },
-
     async total() {
         return await db.select({ count: sql<number>`count(*)` }).from(users);
     },
