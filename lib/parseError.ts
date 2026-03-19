@@ -4,7 +4,7 @@ export const parseError = (data: any) => {
         if (zodErr) {
             return zodErr;
         }
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.log(`Unknown error`, err);
     }
 

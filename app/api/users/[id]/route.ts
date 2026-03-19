@@ -70,7 +70,7 @@ export async function DELETE(
             status: "success",
             message: "User " + res[0].username + " deleted successfully",
         });
-    } catch (err: any) {
+    } catch (err: unknown) {
         return NextResponse.json({
             status: "error",
             message: parseError(err),

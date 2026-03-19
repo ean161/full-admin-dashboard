@@ -30,7 +30,7 @@ export async function POST(req: Request) {
             message: "User added successfully",
             data: userId,
         });
-    } catch (err: any) {
+    } catch (err: unknown) {
         return NextResponse.json({
             status: "error",
             message: parseError(err),

@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
             status: "success",
             data: statistic,
         });
-    } catch (err: any) {
+    } catch (err: unknown) {
         return NextResponse.json({
             status: "error",
             message: parseError(err),

@@ -14,7 +14,7 @@ export async function POST(req: Request) {
             message: "Money transfer successfully",
             data: userId,
         });
-    } catch (err: any) {
+    } catch (err: unknown) {
         return NextResponse.json({
             status: "error",
             message: parseError(err),
